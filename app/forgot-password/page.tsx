@@ -104,7 +104,7 @@ export default function ForgotPasswordPage() {
         {/* Main Card */}
         <div className="relative z-10 w-full max-w-md">
           {/* Logo/Brand */}
-          <div className="text-center mb-6">
+          {/* <div className="text-center mb-6">
             <div className={`inline-flex items-center justify-center backdrop-blur-sm rounded-2xl p-2 shadow-sm px-5 ${
               theme === 'dark' ? 'bg-gray-800/70' : 'bg-white/70'
             }`}>
@@ -115,15 +115,15 @@ export default function ForgotPasswordPage() {
                 {t('app.title')}
               </span>
             </div>
-          </div>
+          </div> */}
 
           {/* Forgot Password Card */}
           <div className={`backdrop-blur-sm rounded-2xl shadow-2xl overflow-hidden border transition-all duration-300 hover:shadow-3xl hover:-translate-y-1 ${
             theme === 'dark' 
-              ? 'bg-gray-800/80 border-gray-700' 
-              : 'bg-white/80 border-white/40'
+              // ? 'bg-gray-800/80 border-gray-700' 
+              // : 'bg-white/80 border-white/40'
           }`}>
-            <div className="px-7 pt-8 pb-6 sm:px-8 sm:pt-9">
+            <div className="px-7  pb-6 sm:px-8 sm:pt-9">
               {/* Header */}
               <div className="flex flex-col items-center text-center">
                 <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-4 shadow-inner ${

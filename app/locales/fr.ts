@@ -59,5 +59,13 @@ export const fr = {
   'dash.consent_active': 'Consentement Partage de Données',
   'dash.active': 'Actif',
   'dash.inactive': 'Inactif',
-  'dash.visible_msg': 'Vos résumés financiers sont désormais visibles par nos partenaires de confiance.'
+  'dash.visible_msg': 'Vos résumés financiers sont désormais visibles par nos partenaires de confiance.',
+  'dash.analytics': 'Analytique Commerciale',
+  'dash.weekly': 'Hebdomadaire',
+  'dash.monthly': 'Mensuel',
+  'dash.ai_insights': 'Assistant IA',
+  'dash.vs_last_period': 'vs période préc.',
+  'dash.growth': 'Croissance',
+  'dash.btn.statistics': 'Statistiques Commerciales',
+  'dash.btn.back': 'Retour au Tableau de Bord'
 }

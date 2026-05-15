@@ -11,7 +11,7 @@ export default function ProfileSetupPage() {
   const [formData, setFormData] = useState({
     businessType: 'retail',
     location: '',
-    nationalId: ''
+    mobileMoneyAccount: ''
   })
   const [error, setError] = useState('')
   const [userPhone, setUserPhone] = useState<string | null>(null)
@@ -38,7 +38,7 @@ export default function ProfileSetupPage() {
     e.preventDefault()
     setError('')
     
-    if (!formData.businessType || !formData.location || !formData.nationalId) {
+    if (!formData.businessType || !formData.location || !formData.mobileMoneyAccount) {
       setError('Please fill in all fields')
       return
     }
@@ -119,7 +119,7 @@ export default function ProfileSetupPage() {
                 name="mobileMoneyAccount"
                 type="tel"
                 required
-                value={formData.nationalId}
+                value={formData.mobileMoneyAccount}
                 onChange={handleChange}
                 className="block w-full px-4 py-3 bg-card border border-border text-card-foreground rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all sm:text-sm"
                 placeholder="e.g. 0551234567"

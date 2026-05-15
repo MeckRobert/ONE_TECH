@@ -100,6 +100,14 @@ export const sw = {
   'dash.active': 'Inatumika',
   'dash.inactive': 'Haijatumika',
   'dash.visible_msg': 'Muhtasari wako wa kifedha sasa unaonekana kwa washirika wetu wa kukopesha.',
+  'dash.analytics': 'Uchambuzi wa Biashara',
+  'dash.weekly': 'Kila Wiki',
+  'dash.monthly': 'Kila Mwezi',
+  'dash.ai_insights': 'Msaidizi wa AI',
+  'dash.vs_last_period': 'dhidi ya kipindi kilichopita',
+  'dash.growth': 'Ukuaji',
+  'dash.btn.statistics': 'Takwimu za Biashara',
+  'dash.btn.back': 'Rudi kwenye Dashibodi',
 
   // Forgot Password Page
   'forgot.title': 'Umesahau nywila?',

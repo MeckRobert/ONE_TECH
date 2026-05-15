@@ -12,9 +12,9 @@ interface LanguageContextType {
   t: (key: string) => string
 }
 
-const dictionaries = {
-  en: en,
-  sw: sw
+const dictionaries: Record<Language, Record<string, string>> = {
+  en: en as Record<string, string>,
+  sw: sw as Record<string, string>
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)

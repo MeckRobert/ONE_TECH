@@ -24,18 +24,19 @@ export default function AboutPage() {
       image: '/team/kelly.png',
       bio: t('about.team.ceo_bio')
     },
+   
     {
-      name: 'Jane Smith',
+      name: 'DR Japhari Ramadhan',
+      position: t('about.team.cfo'),
+      image: '/team/cfo.jpg',
+      bio: t('about.team.cfo_bio')
+    },
+    {
+      name: 'Meki Robert',
       position: t('about.team.cto'),
       image: '/team/cto.jpg',
       bio: t('about.team.cto_bio')
     },
-    {
-      name: 'Michael Brown',
-      position: t('about.team.cfo'),
-      image: '/team/cfo.jpg',
-      bio: t('about.team.cfo_bio')
-    }
   ]
 
   const values = [
@@ -78,10 +79,10 @@ export default function AboutPage() {
   ]
 
   const milestones = [
-    { year: '2020', title: t('about.milestone1'), description: t('about.milestone1_desc') },
-    { year: '2021', title: t('about.milestone2'), description: t('about.milestone2_desc') },
-    { year: '2022', title: t('about.milestone3'), description: t('about.milestone3_desc') },
-    { year: '2023', title: t('about.milestone4'), description: t('about.milestone4_desc') }
+    { year: 'Jan / 2026', title: t('about.milestone1'), description: t('about.milestone1_desc') },
+    { year: 'Feb / 2026', title: t('about.milestone2'), description: t('about.milestone2_desc') },
+    { year: 'Apr / 2026', title: t('about.milestone3'), description: t('about.milestone3_desc') },
+    { year: 'June / 2026', title: t('about.milestone4'), description: t('about.milestone4_desc') }
   ]
 
   return (

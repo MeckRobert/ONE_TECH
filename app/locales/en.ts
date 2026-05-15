@@ -100,6 +100,14 @@ export const en = {
   'dash.active': 'Active',
   'dash.inactive': 'Inactive',
   'dash.visible_msg': 'Your financial summaries are now visible to our trusted lending partners.',
+  'dash.analytics': 'Business Analytics',
+  'dash.weekly': 'Weekly',
+  'dash.monthly': 'Monthly',
+  'dash.ai_insights': 'AI Assistant Insights',
+  'dash.vs_last_period': 'vs last period',
+  'dash.growth': 'Growth',
+  'dash.btn.statistics': 'Business Statistics',
+  'dash.btn.back': 'Back to Dashboard',
 
   // Forgot Password Page
   'forgot.title': 'Forgot password?',

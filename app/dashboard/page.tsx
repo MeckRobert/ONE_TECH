@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { storage, User, BusinessProfile, Transaction } from '../../lib/storage'
 import { useLanguage } from '../contexts/LanguageProvider'
+import { getGrowthMetrics } from '../../lib/analytics'
+import { TrendingUp, TrendingDown } from 'lucide-react'
 
 export default function DashboardPage() {
   const router = useRouter()
@@ -80,6 +82,7 @@ export default function DashboardPage() {
   const netCashflow = totalSales - totalExpenses
 
   const score = Math.min(1000, 300 + (transactions.length * 10) + (netCashflow > 0 ? 50 : 0))
+  const metrics = getGrowthMetrics(transactions, 'monthly')
 
   if (isLoading) return (
     <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
@@ -111,12 +114,21 @@ export default function DashboardPage() {
                 {profile?.businessType.charAt(0).toUpperCase()}{profile?.businessType.slice(1)} &bull; {profile?.location}
               </p>
             </div>
-            <button 
-              onClick={handleLogout}
-              className="text-sm px-5 py-2.5 bg-muted text-muted-foreground font-semibold rounded-full hover:bg-foreground hover:text-background transition-colors border border-border shadow-sm"
-            >
-              {t('btn.logout')}
-            </button>
+            <div className="flex gap-4 items-center">
+              <button
+                onClick={() => router.push('/dashboard/statistics')}
+                className="text-sm px-5 py-2.5 bg-primary text-primary-foreground font-semibold rounded-full hover:opacity-90 transition-opacity border border-border shadow-sm flex items-center gap-2"
+              >
+                <TrendingUp className="w-4 h-4" />
+                {t('dash.btn.statistics')}
+              </button>
+              <button 
+                onClick={handleLogout}
+                className="text-sm px-5 py-2.5 bg-muted text-muted-foreground font-semibold rounded-full hover:bg-foreground hover:text-background transition-colors border border-border shadow-sm"
+              >
+                {t('btn.logout')}
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -128,8 +140,8 @@ export default function DashboardPage() {
           <h2 className="text-xl font-bold mb-6 tracking-tight">{t('dash.overview')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
-              { label: t('dash.total_sales'), value: totalSales, color: 'text-foreground' },
-              { label: t('dash.total_expenses'), value: totalExpenses, color: 'text-muted-foreground' },
+              { label: t('dash.total_sales'), value: totalSales, color: 'text-foreground', growth: metrics.salesGrowth },
+              { label: t('dash.total_expenses'), value: totalExpenses, color: 'text-muted-foreground', growth: metrics.expensesGrowth },
               { label: t('dash.net_cashflow'), value: netCashflow, color: netCashflow >= 0 ? 'text-primary' : 'text-red-500' },
               { label: t('dash.momo_volume'), value: mmTxns, color: 'text-foreground' },
             ].map((metric, i) => (
@@ -138,6 +150,12 @@ export default function DashboardPage() {
                 <p className={`text-3xl font-bold tracking-tight ${metric.color}`}>
                   TSh {metric.value.toFixed(2)}
                 </p>
+                {metric.growth !== undefined && (
+                  <div className={`mt-2 flex items-center text-xs font-semibold ${metric.growth >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                    {metric.growth >= 0 ? <TrendingUp className="w-3 h-3 mr-1" /> : <TrendingDown className="w-3 h-3 mr-1" />}
+                    <span>{Math.abs(metric.growth).toFixed(1)}% {t('dash.vs_last_period')}</span>
+                  </div>
+                )}
               </div>
             ))}
           </div>
