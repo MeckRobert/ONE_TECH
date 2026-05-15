@@ -78,14 +78,14 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 glass rounded-2xl shadow-2xl p-8 md:p-10 border border-border relative overflow-hidden">
+    <div className="min-h-screen bg-background text-foreground flex items-center justify-center py-1 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-5 glass rounded-2xl shadow-2xl p-8 md:p-10 border border-border relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary via-muted-foreground to-primary"></div>
         
         <div className="text-center">
           <div className="text-4xl font-extrabold mb-2 tracking-tight">
-            <span className="text-primary">KIM</span>
-            <span className="text-muted-foreground">fintech</span>
+            <span className="text-primary">ONE</span>
+            <span className="text-muted-foreground"> TECH</span>
           </div>
           <h2 className="mt-6 text-2xl font-bold">
             {t('auth.create_account')}
@@ -117,7 +117,7 @@ export default function RegisterPage() {
               value={formData.phone}
               onChange={handleChange}
               className="block w-full px-4 py-3 bg-card border border-border text-card-foreground rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all sm:text-sm"
-              placeholder="e.g. 0551234567"
+              placeholder="e.g. 0674567312"
             />
           </div>
 

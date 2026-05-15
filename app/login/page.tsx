@@ -89,7 +89,7 @@ export default function LoginPage() {
                 value={formData.phone}
                 onChange={handleChange}
                 className="block w-full px-4 py-3 bg-card border border-border text-card-foreground rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all sm:text-sm"
-                placeholder="e.g. 0551234567"
+                placeholder="e.g. 0674567312"
               />
             </div>
 
@@ -134,7 +134,7 @@ export default function LoginPage() {
               </div>
 
               <div className="text-sm">
-                <Link href="/forgot-pin" className="font-medium text-primary hover:text-muted-foreground transition-colors">
+                <Link href="/forgot-password" className="font-medium text-primary hover:text-muted-foreground transition-colors">
                   {t('auth.forgot_pin')}
                 </Link>
               </div>

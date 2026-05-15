@@ -5,12 +5,6 @@ import { en } from '../locales/en'
 import { sw } from '../locales/sw'
 
 type Language = 'en' | 'sw'
-type Dictionary = Record<string, string>
-
-const dictionaries: Record<Language, Dictionary> = {
-  en,
-  sw
-}
 
 interface LanguageContextType {
   language: Language
@@ -18,16 +12,23 @@ interface LanguageContextType {
   t: (key: string) => string
 }
 
+const dictionaries = {
+  en: en,
+  sw: sw
+}
+
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguageState] = useState<Language>('en')
+  const [isReady, setIsReady] = useState(false)
 
   useEffect(() => {
     const saved = localStorage.getItem('kim_lang') as Language
     if (saved && (saved === 'en' || saved === 'sw')) {
       setLanguageState(saved)
     }
+    setIsReady(true)
   }, [])
 
   const setLanguage = (lang: Language) => {
@@ -37,6 +38,10 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   const t = (key: string): string => {
     return dictionaries[language][key] || key
+  }
+
+  if (!isReady) {
+    return null // or a loading spinner
   }
 
   return (
