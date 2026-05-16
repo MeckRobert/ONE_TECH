@@ -3,10 +3,12 @@
 import React from 'react'
 import Link from 'next/link'
 import { useLanguage } from './contexts/LanguageProvider'
-import Footer from './components/Footer'
+import { useTheme } from './contexts/ThemeProvider' 
+
 
 export default function Home() {
   const { t } = useLanguage()
+  const { theme } = useTheme()
 
   const features = [
     {
@@ -35,7 +37,7 @@ export default function Home() {
       description: t('home.feature5.desc')
     },
     {
-      icon: '',
+      icon: 'y',
       title: t('home.feature6.title'),
       description: t('home.feature6.desc')
     }
@@ -43,7 +45,7 @@ export default function Home() {
 
   const stats = [
     { value: '50K+', label: t('home.stats.users') },
-    { value: '$2B+', label: t('home.stats.transactions') },
+    { value: 'TZS 2B+', label: t('home.stats.transactions') },
     { value: '99.9%', label: t('home.stats.uptime') },
     { value: '24/7', label: t('home.stats.support') }
   ]
@@ -104,7 +106,7 @@ export default function Home() {
               </Link>
             </div>
 
-            {/* Stats Section - NOW USING TRANSLATIONS */}
+            {/* Stats Section */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 pt-10 border-t border-border/50">
               {stats.map((stat, index) => (
                 <div key={index} className="text-center">
@@ -117,7 +119,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Section - NOW USING TRANSLATIONS */}
+      {/* Features Section */}
       <section id="features" className="py-24 bg-gradient-to-b from-background to-muted/10">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -154,7 +156,48 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section - NOW USING TRANSLATIONS */}
+      {/* How It Works Section - NEW */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('home.how_it_works_title')}</h2>
+            <p className="text-lg text-muted-foreground">
+              {t('home.how_it_works_subtitle')}
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className={`p-6 rounded-2xl border text-center ${
+              theme === 'dark' ? 'bg-gray-800/50 border-gray-700' : 'bg-white/50 border-gray-200'
+            }`}>
+              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-primary">1</span>
+              </div>
+              <h3 className="text-xl font-bold mb-2">{t('home.step1_title')}</h3>
+              <p className="text-muted-foreground text-sm">{t('home.step1_desc')}</p>
+            </div>
+            <div className={`p-6 rounded-2xl border text-center ${
+              theme === 'dark' ? 'bg-gray-800/50 border-gray-700' : 'bg-white/50 border-gray-200'
+            }`}>
+              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-primary">2</span>
+              </div>
+              <h3 className="text-xl font-bold mb-2">{t('home.step2_title')}</h3>
+              <p className="text-muted-foreground text-sm">{t('home.step2_desc')}</p>
+            </div>
+            <div className={`p-6 rounded-2xl border text-center ${
+              theme === 'dark' ? 'bg-gray-800/50 border-gray-700' : 'bg-white/50 border-gray-200'
+            }`}>
+              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-primary">3</span>
+              </div>
+              <h3 className="text-xl font-bold mb-2">{t('home.step3_title')}</h3>
+              <p className="text-muted-foreground text-sm">{t('home.step3_desc')}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
       <section className="py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-muted/20"></div>
         <div className="container mx-auto px-4 text-center relative z-10">
@@ -178,8 +221,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <Footer />
+   
 
       <style jsx global>{`
         @keyframes float {
