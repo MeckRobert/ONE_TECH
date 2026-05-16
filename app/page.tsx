@@ -37,7 +37,7 @@ export default function Home() {
       description: t('home.feature5.desc')
     },
     {
-      icon: 'y',
+      icon: '',
       title: t('home.feature6.title'),
       description: t('home.feature6.desc')
     }
