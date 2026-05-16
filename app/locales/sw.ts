@@ -19,7 +19,7 @@ export const sw = {
   'hero.secondary_cta': 'Jinsi Inavyofanya Kazi',
 
   // Home Page
-  'home.welcome_badge': '📊 Usimamizi wa Kifedha kwa SMEs',
+  'home.welcome_badge': 'Usimamizi wa Kifedha kwa SMEs',
   'home.features_badge': 'Kwa Nini Uchague ONE TECH',
   'home.features_title': 'Kila kitu unachohitaji kukuza biashara yako',
   'home.features_subtitle': 'Zana zenye nguvu zilizoundwa mahususi kwa wamiliki wa biashara ndogo',

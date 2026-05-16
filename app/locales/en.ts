@@ -19,7 +19,7 @@ export const en = {
   'hero.secondary_cta': 'See How It Works',
 
   // Home Page
-  'home.welcome_badge': '📊 Smart Financial Management for SMEs',
+  'home.welcome_badge': 'Smart Financial Management for SMEs',
   'home.features_badge': 'Why Choose ONE TECH',
   'home.features_title': 'Everything you need to grow your business',
   'home.features_subtitle': 'Powerful tools designed specifically for small business owners',
