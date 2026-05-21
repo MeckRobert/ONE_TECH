@@ -12,7 +12,34 @@ export type GrowthMetrics = {
   isGrowing: boolean;
 };
 
-export function getChartData(transactions: Transaction[], period: 'weekly' | 'monthly'): ChartDataPoint[] {
+export function getChartData(transactions: Transaction[], period: 'today' | 'weekly' | 'monthly'): ChartDataPoint[] {
+  if (period === 'today') {
+    const data: ChartDataPoint[] = [];
+    const now = new Date();
+    const todayStr = now.toISOString().split('T')[0];
+
+    // Group in 2-hour slots for a neat local hourly breakdown
+    for (let hour = 0; hour < 24; hour += 2) {
+      const label = `${hour.toString().padStart(2, '0')}:00`;
+      
+      const hourTxns = transactions.filter(t => {
+        if (!t.date.startsWith(todayStr)) return false;
+        const tHour = new Date(t.date).getHours();
+        return tHour >= hour && tHour < hour + 2;
+      });
+      
+      const sales = hourTxns.filter(t => t.type === 'sale').reduce((sum, t) => sum + t.amount, 0);
+      const expenses = hourTxns.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0);
+
+      data.push({
+        name: label,
+        sales,
+        expenses,
+      });
+    }
+    return data;
+  }
+
   const data: ChartDataPoint[] = [];
   const now = new Date();
   const days = period === 'weekly' ? 7 : 30;
@@ -37,8 +64,8 @@ export function getChartData(transactions: Transaction[], period: 'weekly' | 'mo
   return data;
 }
 
-export function getGrowthMetrics(transactions: Transaction[], period: 'weekly' | 'monthly'): GrowthMetrics {
-  const days = period === 'weekly' ? 7 : 30;
+export function getGrowthMetrics(transactions: Transaction[], period: 'today' | 'weekly' | 'monthly'): GrowthMetrics {
+  const days = period === 'today' ? 1 : period === 'weekly' ? 7 : 30;
   const now = new Date();
   
   const currentStart = new Date(now);

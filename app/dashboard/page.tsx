@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { storage, User, BusinessProfile, Transaction } from '../../lib/storage'
 import { useLanguage } from '../contexts/LanguageProvider'
 import { getGrowthMetrics } from '../../lib/analytics'
-import { TrendingUp, TrendingDown } from 'lucide-react'
+import { TrendingUp, TrendingDown, Sparkles, Megaphone } from 'lucide-react'
 
 export default function DashboardPage() {
   const router = useRouter()
@@ -116,6 +116,13 @@ export default function DashboardPage() {
             </div>
             <div className="flex gap-4 items-center">
               <button
+                onClick={() => router.push('/dashboard/promote')}
+                className="text-sm px-5 py-2.5 bg-primary text-primary-foreground font-semibold rounded-full hover:opacity-90 transition-opacity border border-border shadow-sm flex items-center gap-2"
+              >
+                <Megaphone className="w-4 h-4 group-hover:rotate-12 transition-transform" />
+                {t('dash.btn.promote')}
+              </button>
+              <button
                 onClick={() => router.push('/dashboard/statistics')}
                 className="text-sm px-5 py-2.5 bg-primary text-primary-foreground font-semibold rounded-full hover:opacity-90 transition-opacity border border-border shadow-sm flex items-center gap-2"
               >
@@ -159,6 +166,32 @@ export default function DashboardPage() {
               </div>
             ))}
           </div>
+        </section>
+
+        {/* Promotion Banner */}
+        <section className="glass rounded-2xl border border-indigo-500/30 overflow-hidden relative p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl shadow-indigo-500/5 bg-gradient-to-r from-indigo-500/10 via-purple-500/5 to-transparent">
+          {/* Abstract glowing shapes */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -z-10"></div>
+          <div className="absolute bottom-0 left-1/3 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl -z-10"></div>
+          
+          <div className="space-y-2 max-w-2xl text-left">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 text-xs font-bold uppercase tracking-wider border border-indigo-500/20">
+              {/* <Sparkles className="w-3 h-3 text-yellow-400" /> */}
+              ONE TECH Showcase Platform
+            </div>
+            <h3 className="text-2xl font-extrabold tracking-tight">Advertise Your Products with Verified Trust</h3>
+            <p className="text-muted-foreground text-sm leading-relaxed">
+              Showcase your merchandise directly to local buyers! Leverage your transaction history score of <span className="font-bold text-foreground">{score}</span> as a gold badge of creditworthiness and trust to close deals instantly.
+            </p>
+          </div>
+          
+          <button
+            onClick={() => router.push('/dashboard/promote')}
+            className="flex-shrink-0 px-8 py-3.5 bg-foreground text-background font-extrabold text-sm rounded-xl hover:scale-[1.03] transition-transform duration-300 shadow-md flex items-center gap-2 group"
+          >
+            <Megaphone className="w-4 h-4 group-hover:rotate-12 transition-transform" />
+            Start Promoting Now
+          </button>
         </section>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

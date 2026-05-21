@@ -12,7 +12,7 @@ interface DashboardChartsProps {
 
 export default function DashboardCharts({ transactions }: DashboardChartsProps) {
   const { t } = useLanguage()
-  const [period, setPeriod] = useState<'weekly' | 'monthly'>('weekly')
+  const [period, setPeriod] = useState<'today' | 'weekly' | 'monthly'>('weekly')
 
   const data = getChartData(transactions, period)
 
@@ -21,6 +21,16 @@ export default function DashboardCharts({ transactions }: DashboardChartsProps) 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
         <h3 className="text-xl font-bold">{t('dash.analytics')}</h3>
         <div className="flex items-center bg-muted rounded-full p-1 border border-border">
+          <button
+            onClick={() => setPeriod('today')}
+            className={`px-4 py-1.5 text-sm font-semibold rounded-full transition-all duration-300 ${
+              period === 'today' 
+                ? 'bg-foreground text-background shadow-md' 
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            {t('dash.today')}
+          </button>
           <button
             onClick={() => setPeriod('weekly')}
             className={`px-4 py-1.5 text-sm font-semibold rounded-full transition-all duration-300 ${
