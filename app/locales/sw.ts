@@ -129,35 +129,59 @@ export const sw = {
 
   // Feed / Marketplace Page
   'feed.title': 'Soko',
-  'feed.subtitle': 'Gundua bidhaa kutoka kwa Wafanyabiashara Wadogo walio thibitishwa wa Tanzania',
+  'feed.subtitle': 'Soko la Tanzania kwa Wafanyabiashara Wadogo',
+  'feed.search_placeholder': 'Tafuta bidhaa, biashara, au makundi...',
   'feed.search': 'Tafuta bidhaa, soko la jumla, au wafanyabiashara wa karibu...',
-  'feed.categories.all': 'Bidhaa Zote',
-  'feed.categories.retail': 'Bidhaa za Rejareja',
-  'feed.categories.food': 'Chakula na Kilimo',
+  'feed.categories.all': 'Zote',
+  'feed.categories.food': 'Chakula',
   'feed.categories.electronics': 'Elektroniki',
-  'feed.categories.fashion': 'Mitindo na Mavazi',
-  'feed.categories.services': 'Huduma za Mtaa',
+  'feed.categories.fashion': 'Mitindo',
+  'feed.categories.services': 'Huduma',
+  'feed.categories.retail': 'Rejareja',
   'feed.categories.other': 'Nyinginezo',
   'feed.no_posts': 'Hakuna Machapisho Bado',
   'feed.no_posts_desc': 'Biashara zitakapotuma bidhaa, zitaonekana hapa',
-  'feed.upgrade_banner.title': 'Unataka Kuorodhesha Bidhaa Zako Mwenyewe?',
-  'feed.upgrade_banner.desc': 'Pata mpango wa Premium Showcase, pakia matangazo ya bidhaa bila kikomo, na onyesha Alama yako ya Uaminifu iliyothibitishwa moja kwa moja kwa wateja.',
-  'feed.upgrade_banner.button': 'Pata Premium Showcase',
+  'feed.no_results': 'Hakuna Machapisho Yaliyopatikana',
+  'feed.no_results_desc': 'Jaribu kubadilisha utafutaji wako au chuja',
+  'feed.clear_filters': 'Futa Vichujio',
+  'feed.upgrade_banner.title': 'Uza kwenye ONE TECH',
+  'feed.upgrade_banner.desc': 'Thibitishwa, chapisha bidhaa, na fikia maelfu ya wateja',
+  'feed.upgrade_banner.button': 'Boresha hadi Premium',
+  'feed.sell_on_onetech': 'Uza kwenye ONE TECH',
+  'feed.upgrade_to_premium': 'Boresha hadi Premium',
   'feed.advertise': 'Tangaza Bidhaa',
   'feed.unlock_advertising': 'Fungua Matangazo',
   'feed.trust_score': 'Uaminifu',
   'feed.verified_sme': 'Mfanyabiashara Mdogo Aliyethibitishwa',
   'feed.price': 'Bei',
-  'feed.impressions': 'Mwonaji',
-  'feed.leads': 'Wateja',
-  'feed.verified_rate': 'Kiwango cha Uthibitishaji',
-  'feed.whatsapp': 'WhatsApp',
-  'feed.momo_order': 'Oda ya MoMo',
+  'feed.views': 'mwonaji',
+  'feed.leads': 'wateja',
+  'feed.conversion': 'ubadilishaji',
   'feed.likes': 'vipendi',
+  'feed.comments': 'maoni',
   'feed.view_comments': 'Tazama maoni yote',
-  'feed.order_now': 'Oda Sasa',
-  'feed.buy_now': 'Nunua Sasa',
   'feed.whatsapp_order': 'Oda kwa WhatsApp',
+  'feed.buy_now': 'Nunua Sasa',
+  'feed.share': 'Shiriki',
+  'feed.share_title': 'Angalia {product} kwenye ONE TECH!',
+  'feed.link_copied': 'Kiungo kimenakiliwa kwenye clipboard!',
+  'feed.sort': 'Panga',
+  'feed.sort_latest': 'Hivi Karibuni',
+  'feed.sort_popular': 'Maarufu Zaidi',
+  'feed.sort_price_low': 'Bei: Chini hadi Juu',
+  'feed.sort_price_high': 'Bei: Juu hadi Chini',
+  
+  // Order & Payment
+  'feed.whatsapp_message': 'Habari {business}, nimeona {product} kwa TSh {price} kwenye ONE TECH na ningependa kuagiza!',
+  'feed.processing_payment': 'Inachakata Malipo',
+  'feed.order_placed': 'Oda Imewekwa!',
+  'feed.payment_amount': 'Kiasi cha Malipo',
+  'feed.waiting_confirmation': 'Kusubiri uthibitisho wa MoMo...',
+  'feed.check_phone': 'Angalia simu yako kwa maagizo ya USSD',
+  'feed.order_notify_seller': 'Tutamjulisha muuzaji mara moja',
+  'feed.order_confirmation_sent': 'Uthibitisho wa oda umetumwa kwa muuzaji',
+  'feed.chat_on_whatsapp': 'Unaweza kuzungumza na muuzaji kwenye WhatsApp',
+  'feed.done': 'Imekamilika',
 
   // Media Upload
   'upload.title': 'Unda chapisho jipya',
@@ -266,7 +290,7 @@ export const sw = {
   'bot.evidence': 'Ushahidi',
   'bot.description': 'Maelezo',
   'bot.no_followers': 'Hakuna wafuasi waliopatikana',
-  'bot.no_bots': 'Huna wafuasi wowote wa boti! 🎉',
+  'bot.no_bots': 'Huna wafuasi wowote wa boti! ',
   'bot.no_suspicious': 'Hakuna akaunti za kushuku zilizogunduliwa',
   'bot.empty_state': 'Anza kukuza hadhira yako',
 
@@ -406,17 +430,15 @@ export const sw = {
   'about.cta_contact': 'Wasiliana na Mauzo',
 
   // ============================================
-  // PROMOTE PAGE (Premium Plans) - ADDED
+  // PROMOTE PAGE (Premium Plans)
   // ============================================
   
-  // Promote Page Header
   'promote.title': 'ONE TECH Premium',
   'promote.subtitle': 'Inua uwepo wako wa utangazaji kwa Wafanyabiashara Wadogo',
   'promote.badge': 'Utangazaji wa Premium',
   'promote.heading': 'Chagua Mpango Unaofaa kwa Biashara Yako',
   'promote.description': 'Pata bidhaa zako kuonyeshwa kwenye KIM Showcase, fungua viashiria vya uaminifu vilivyothibitishwa, na kukuza kiasi chako cha mauzo kwa urahisi.',
   
-  // Plan Names
   'promote.plan.bronze.name': 'Shaba ya Kuanzia',
   'promote.plan.bronze.period': 'mwezi',
   'promote.plan.gold.name': 'Dhahabu ya Ukuaji',
@@ -426,13 +448,11 @@ export const sw = {
   'promote.plan.platinum.period': 'mwezi',
   'promote.plan.platinum.badge': 'Thamani Bora',
   
-  // Plan Features - Bronze
   'promote.plan.bronze.feature1': 'Pakia hadi Bidhaa 3 Zinazotumika',
   'promote.plan.bronze.feature2': 'Kiungo cha Moja kwa Moja cha Maswali ya WhatsApp',
   'promote.plan.bronze.feature3': 'Mwonekano wa Kawaida wa Utafutaji wa Mitaa',
   'promote.plan.bronze.feature4': 'Uchambuzi wa Msingi wa Kubofya',
   
-  // Plan Features - Gold
   'promote.plan.gold.feature1': 'Upakiaji wa Bidhaa Bila Kikomo',
   'promote.plan.gold.feature2': 'Beji ya Alama ya Uaminifu Iliyothibitishwa',
   'promote.plan.gold.feature3': 'Nyongeza ya Mwonekano wa Utafutaji wa Kuona mara 3',
@@ -440,7 +460,6 @@ export const sw = {
   'promote.plan.gold.feature5': 'Uchambuzi wa Kina wa Mwonaji na Wateja',
   'promote.plan.gold.feature6': 'Hali ya Orodha Zilizoangaziwa',
   
-  // Plan Features - Platinum
   'promote.plan.platinum.feature1': 'Kila kitu katika Dhahabu ya Ukuaji',
   'promote.plan.platinum.feature2': 'Matangazo ya Juu ya Bango la Karuseli',
   'promote.plan.platinum.feature3': 'Uelekezaji wa Kiotomatiki wa Wateja kupitia SMS',
@@ -448,23 +467,18 @@ export const sw = {
   'promote.plan.platinum.feature5': 'Meneja wa Akaunti wa Kujitolea wa VIP 24/7',
   'promote.plan.platinum.feature6': 'Misimbo ya QR maalum kwa vipeperushi vya nje ya programu',
   
-  // Button
   'promote.button': 'Inua na {plan}',
-  
-  // Checkout Modal
   'promote.checkout.title': 'Malipo',
   'promote.checkout.subtitle': 'Kuanzisha {plan} • {price}',
   'promote.checkout.momo': 'Mobile Money',
   'promote.checkout.card': 'Kadi ya Benki / Mkopo',
   
-  // Mobile Money Form
   'promote.momo.carrier': 'Chagua Kampuni ya Simu',
   'promote.momo.phone': 'Nambari ya MoMo',
   'promote.momo.phone_placeholder': 'mfano +255 712 345 678',
   'promote.momo.pin': 'Nambari ya Siri ya Kampuni',
   'promote.momo.pin_placeholder': '••••',
   
-  // Card Form
   'promote.card.name': 'Jina la Mwenye Kadi',
   'promote.card.name_placeholder': 'mfano Robert Michael Meck',
   'promote.card.number': 'Nambari ya Kadi',
@@ -474,10 +488,8 @@ export const sw = {
   'promote.card.cvv': 'CVV / Nambari ya Usalama',
   'promote.card.cvv_placeholder': '123',
   
-  // Payment Button
   'promote.pay_button': 'Lipa TSh {amount} Sasa',
   
-  // Processing States
   'promote.processing.title': 'Inachakata Malipo',
   'promote.processing.subtitle': 'Manunuzi Salama na Yaliyosimbwa',
   'promote.processing.step1': 'Kuanzisha muunganisho salama...',
@@ -489,14 +501,106 @@ export const sw = {
   'promote.processing.step5': 'Kusuluhisha fedha na kusasisha hali ya leja...',
   'promote.processing.step6': 'Imekamilika!',
   
-  // Success State
   'promote.success.title': 'Imefanikiwa!',
   'promote.success.subtitle': 'Usajili Umeamilishwa Kikamilifu',
   'promote.success.redirect': 'Inaelekeza kwenye KIM Showcase Feed...',
   
-  // Carrier Names
   'promote.carrier.mpesa': 'M-Pesa',
   'promote.carrier.tigopesa': 'Tigo Pesa',
   'promote.carrier.airtel': 'Airtel Money',
-  'promote.carrier.halopesa': 'HaloPesa'
+  'promote.carrier.halopesa': 'HaloPesa',
+
+  // ============================================
+  // INVENTORY & SKU (Kitambulisho cha Bidhaa)
+  // ============================================
+  
+  // Inventory / SKU
+  'inventory.sku': 'Kitambulisho cha Bidhaa (SKU)',
+  'inventory.sku_label': 'Kitambulisho cha Bidhaa (Si lazima)',
+  'inventory.sku_placeholder': 'mfano, AV-FRESH-1KG',
+  'inventory.sku_hint': 'Nambari ya kipekee ya kufuatilia bidhaa yako. Mfano: AV-FRESH-1KG (Parachichi, Safi, Kilo 1)',
+  'inventory.sku_help': 'Kitambulisho cha Bidhaa kinakusaidia kutambua na kufuatilia bidhaa kwenye hazina yako',
+  'inventory.no_sku': 'Hakuna Kitambulisho cha Bidhaa',
+  
+  // Inventory Terms
+  'inventory.title': 'Usimamizi wa Hazina',
+  'inventory.product_name': 'Jina la Bidhaa',
+  'inventory.category': 'Aina ya Bidhaa',
+  'inventory.quantity': 'Idadi',
+  'inventory.unit': 'Kipimo',
+  'inventory.cost_price': 'Bei ya Kununua (TSh)',
+  'inventory.selling_price': 'Bei ya Kuuza (TSh)',
+  'inventory.supplier': 'Muuzaji / Msambazaji',
+  'inventory.reorder_level': 'Kiwango cha Kuagiza Tena',
+  'inventory.location': 'Mahali pa Kuhifadhi',
+  'inventory.stock_value': 'Thamani ya Hazina',
+  'inventory.low_stock': 'Tahadhari ya Bidhaa Chache',
+  'inventory.out_of_stock': 'Hakuna Bidhaa',
+  'inventory.in_stock': 'Bidhaa Zipo',
+  'inventory.add_product': 'Ongeza Bidhaa',
+  'inventory.edit_product': 'Hariri Bidhaa',
+  'inventory.delete_product': 'Futa Bidhaa',
+  'inventory.product_details': 'Maelezo ya Bidhaa',
+  'inventory.stock_level': 'Kiwango cha Bidhaa',
+  'inventory.potential_profit': 'Faida Inayowezekana',
+  'inventory.total_inventory_value': 'Jumla ya Thamani ya Hazina',
+  
+  // SKU Examples
+  'inventory.sku_examples': 'Mifano ya Kitambulisho cha Bidhaa:',
+  'inventory.sku_example1': 'AV-FRESH-1KG = Parachichi, Safi, Kilo 1',
+  'inventory.sku_example2': 'CH-USBC-45W = Chaja, USB-C, 45W',
+  'inventory.sku_example3': 'BG-LEATHER-BLK = Begi, Ngozi, Nyeusi',
+  'inventory.sku_example4': 'TS-COTTON-L-BLU = T-Shati, Pamba, Kubwa, Buluu',
+  
+  // SKU Best Practices
+  'inventory.sku_tips': 'Vidokezo vya Kitambulisho cha Bidhaa:',
+  'inventory.sku_tip1': 'Kiwe kifupi (herufi 8-12)',
+  'inventory.sku_tip2': 'Tumia herufi na nambari tu',
+  'inventory.sku_tip3': 'Herufi za kwanza ziweke kwa aina ya bidhaa',
+  'inventory.sku_tip4': 'Kuwa thabiti na muundo wako',
+  'inventory.sku_tip5': 'Epuka nafasi na herufi maalum',
+  
+  // Unit Types
+  'inventory.unit_piece': 'Kipande',
+  'inventory.unit_kg': 'Kilogramu (kg)',
+  'inventory.unit_gram': 'Gramu (g)',
+  'inventory.unit_liter': 'Lita (L)',
+  'inventory.unit_bundle': 'Kundi',
+  'inventory.unit_dozen': 'Dazeni',
+  'inventory.unit_box': 'Sanduku',
+  'inventory.unit_pack': 'Pakiti',
+  
+  // Category Types
+  'inventory.category_fruits': 'Matunda',
+  'inventory.category_vegetables': 'Mboga',
+  'inventory.category_electronics': 'Elektroniki',
+  'inventory.category_fashion': 'Mitindo',
+  'inventory.category_food': 'Chakula',
+  'inventory.category_beverages': 'Vinywaji',
+  'inventory.category_cosmetics': 'Vipodozi',
+  'inventory.category_hardware': 'Vifaa vya Ujenzi',
+  'inventory.category_other': 'Nyinginezo',
+  
+  // Stock Status Messages
+  'inventory.stock_status_low': 'Bidhaa Chache - Agiza tena hivi karibuni!',
+  'inventory.stock_status_out': 'Hakuna Bidhaa - Jaza tena sasa!',
+  'inventory.stock_status_good': 'Kiwango cha bidhaa kizuri',
+  'inventory.stock_status_healthy': 'Kiwango cha bidhaa kizuri',
+  
+  // Inventory Actions
+  'inventory.add_stock': 'Ongeza Bidhaa',
+  'inventory.remove_stock': 'Ondoa Bidhaa',
+  'inventory.stock_added': 'Bidhaa zimeongezwa kikamilifu',
+  'inventory.stock_removed': 'Bidhaa zimeondolewa kikamilifu',
+  'inventory.product_added': 'Bidhaa imeongezwa kikamilifu',
+  'inventory.product_updated': 'Bidhaa imesasishwa kikamilifu',
+  'inventory.product_deleted': 'Bidhaa imefutwa kikamilifu',
+  
+  // Inventory Alerts
+  'inventory.alert_low_stock_title': 'Tahadhari ya Bidhaa Chache!',
+  'inventory.alert_low_stock_message': 'Bidhaa {count} ziko chini ya kiwango cha kuagiza tena',
+  'inventory.alert_out_of_stock_title': 'Tahadhari ya Hakuna Bidhaa!',
+  'inventory.alert_out_of_stock_message': 'Bidhaa {count} zinahitaji kujazwa mara moja',
+  'inventory.alert_view_items': 'Tazama Bidhaa',
+  'inventory.alert_restock_now': 'Jaza Sasa'
 }

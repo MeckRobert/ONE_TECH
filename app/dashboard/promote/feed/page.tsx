@@ -1,44 +1,17 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { 
-  ArrowLeft, Sparkles, Megaphone, Plus, Search, MessageSquare, 
-  ExternalLink, X, Check, Heart, Smartphone, Loader2, 
-  Home, Compass, Heart as HeartIcon, User, Camera, 
-  Bookmark, Send, MoreHorizontal, Volume2, VolumeX,
-  ChevronLeft, ChevronRight, Clock, Star, Shield,
-  ShoppingBag, MapPin, TrendingUp, Award, Wand2,
-  Captions, Hash, Lightbulb, Zap, Bot, AlertTriangle,
-  UserCheck, ShieldAlert, Eye, Download, RefreshCw,
-  Image as ImageIcon, Video, Music, Filter, Crop, 
-  Trash2, Move, PlusCircle, Upload, FolderOpen
+  ArrowLeft, Search, Plus, Heart, MessageSquare, Send, 
+  Bookmark, Home, Compass, Wand2, User, Shield, X,
+  ChevronLeft, ChevronRight, Sparkles, ShoppingBag, 
+  Smartphone, Loader2, Check, Filter, TrendingUp, 
+  Clock, Eye, Award, Zap, Phone, MapPin, Star,
+  Share2, MoreHorizontal, Volume2, VolumeX, Play
 } from 'lucide-react'
 import { storage } from '../../../../lib/storage'
 import { useLanguage } from '../../../contexts/LanguageProvider'
-
-// Define types
-interface User {
-  phone: string;
-  businessName: string;
-  email?: string;
-  createdAt: string;
-}
-
-interface BusinessProfile {
-  businessName: string;
-  location: string;
-  description?: string;
-  category?: string;
-}
-
-interface MediaFile {
-  id: string;
-  file: File;
-  preview: string;
-  type: 'image' | 'video';
-  duration?: number;
-}
 
 interface AdItem {
   id: string;
@@ -48,9 +21,9 @@ interface AdItem {
   title: string;
   price: number;
   description: string;
-  category: 'retail' | 'food' | 'electronics' | 'fashion' | 'services' | 'other';
-  media: string[]; // Array of image/video URLs
-  mediaTypes: ('image' | 'video')[];
+  category: string;
+  media: string[];
+  mediaTypes: string[];
   whatsapp: string;
   momoAccount: string;
   views: number;
@@ -61,7 +34,6 @@ interface AdItem {
   comments?: Array<{user: string, text: string, time: string}>;
 }
 
-// [Keep all the existing DEFAULT_ADS but update them to use media array]
 const DEFAULT_ADS: AdItem[] = [
   {
     id: 'ad-1',
@@ -81,365 +53,185 @@ const DEFAULT_ADS: AdItem[] = [
     likes: 88,
     isLiked: false,
     isSaved: false,
+    comments: [
+      { user: 'sarah_j', text: 'Fresh delivery to Dar?', time: '2h ago' },
+      { user: 'market_master', text: 'Best avocados in town!', time: '5h ago' }
+    ]
+  },
+  {
+    id: 'ad-2',
+    businessName: 'Kili Tech Solutions',
+    location: 'Dar es Salaam, Posta',
+    trustScore: 790,
+    title: 'Fast Charger USB-C 45W Adapter',
+    price: 25000,
+    description: 'High-speed dual port chargers with short-circuit protection.',
+    category: 'electronics',
+    media: ['https://images.unsplash.com/photo-1622445262465-2481c4574875?auto=format&fit=crop&q=80&w=600'],
+    mediaTypes: ['image'],
+    whatsapp: '+255788998877',
+    momoAccount: '0788998877',
+    views: 189,
+    leads: 24,
+    likes: 42,
+    isLiked: false,
+    isSaved: false,
     comments: []
   },
-  // Add more default ads...
+  {
+    id: 'ad-3',
+    businessName: 'Nail & Barber Elite',
+    location: 'Sinza, Dar es Salaam',
+    trustScore: 920,
+    title: 'Executive Haircut & Facial Package',
+    price: 15000,
+    description: 'Get pampered by our certified premium barbers.',
+    category: 'services',
+    media: ['https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=600'],
+    mediaTypes: ['image'],
+    whatsapp: '+255622112233',
+    momoAccount: '0622112233',
+    views: 312,
+    leads: 56,
+    likes: 120,
+    isLiked: false,
+    isSaved: false,
+    comments: []
+  },
+  {
+    id: 'ad-4',
+    businessName: 'Zanzibar Thread & Fashion',
+    location: 'Stone Town / Masaki',
+    trustScore: 760,
+    title: 'Handcrafted Premium Leather Bag',
+    price: 55000,
+    description: 'Elegant local Tanzanian leather crossbody handbags.',
+    category: 'fashion',
+    media: ['https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=600'],
+    mediaTypes: ['image'],
+    whatsapp: '+255755112233',
+    momoAccount: '0755112233',
+    views: 254,
+    leads: 31,
+    likes: 67,
+    isLiked: false,
+    isSaved: false,
+    comments: []
+  }
 ]
 
-// Media Upload Component
-const MediaUploader = ({ 
-  mediaFiles, 
-  onMediaAdd, 
-  onMediaRemove,
-  onMediaReorder 
-}: { 
-  mediaFiles: MediaFile[];
-  onMediaAdd: (files: FileList) => void;
-  onMediaRemove: (id: string) => void;
-  onMediaReorder: (files: MediaFile[]) => void;
-}) => {
-  const fileInputRef = useRef<HTMLInputElement>(null)
-  const [draggedIndex, setDraggedIndex] = useState<number | null>(null)
+// Simple PostModal component inline to avoid import issues
+const PostModal = ({ ad, onClose, onLike, onSave }: any) => {
+  const [currentIndex, setCurrentIndex] = useState(0)
 
-  const handleDragStart = (index: number) => {
-    setDraggedIndex(index)
-  }
-
-  const handleDragOver = (e: React.DragEvent, index: number) => {
-    e.preventDefault()
-    if (draggedIndex === null) return
-    if (draggedIndex === index) return
-    
-    const newFiles = [...mediaFiles]
-    const draggedItem = newFiles[draggedIndex]
-    newFiles.splice(draggedIndex, 1)
-    newFiles.splice(index, 0, draggedItem)
-    
-    setDraggedIndex(index)
-    onMediaReorder(newFiles)
-  }
+  if (!ad) return null
 
   return (
-    <div className="space-y-4">
-      {/* Upload Button */}
-      <div 
-        onClick={() => fileInputRef.current?.click()}
-        className="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl p-8 text-center cursor-pointer hover:border-purple-500 transition-all bg-gray-50 dark:bg-gray-800/30"
-      >
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*,video/*"
-          multiple
-          onChange={(e) => e.target.files && onMediaAdd(e.target.files)}
-          className="hidden"
-        />
-        <Upload className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-        <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-          Tap to add photos or videos
-        </p>
-        <p className="text-xs text-gray-500 mt-1">
-          You can select multiple images or videos
-        </p>
-        <div className="flex items-center justify-center gap-4 mt-3 text-xs text-gray-400">
-          <span className="flex items-center gap-1"><ImageIcon className="w-3 h-3" /> Photos</span>
-          <span className="flex items-center gap-1"><Video className="w-3 h-3" /> Videos</span>
-          <span className="flex items-center gap-1"><PlusCircle className="w-3 h-3" /> Up to 10</span>
-        </div>
-      </div>
-
-      {/* Media Grid Preview */}
-      {mediaFiles.length > 0 && (
-        <div>
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-xs font-medium text-gray-500">
-              {mediaFiles.length} item{mediaFiles.length > 1 ? 's' : ''} selected
-            </p>
-            <p className="text-xs text-gray-400">Drag to reorder</p>
-          </div>
-          <div className="grid grid-cols-3 gap-2">
-            {mediaFiles.map((media, index) => (
-              <div
-                key={media.id}
-                draggable
-                onDragStart={() => handleDragStart(index)}
-                onDragOver={(e) => handleDragOver(e, index)}
-                className="relative group aspect-square rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800 cursor-move"
-              >
-                {media.type === 'image' ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img 
-                    src={media.preview} 
-                    alt={`Preview ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="relative w-full h-full">
-                    <video 
-                      src={media.preview} 
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                      <Video className="w-8 h-8 text-white" />
-                    </div>
-                  </div>
-                )}
-                
-                {/* Remove Button */}
-                <button
-                  onClick={() => onMediaRemove(media.id)}
-                  className="absolute top-1 right-1 p-1.5 bg-black/60 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:bg-red-500"
-                >
-                  <Trash2 className="w-3 h-3 text-white" />
-                </button>
-                
-                {/* Index Badge */}
-                <div className="absolute bottom-1 left-1 px-1.5 py-0.5 bg-black/60 rounded text-white text-xs">
-                  {index + 1}
-                </div>
-
-                {/* Media Type Badge */}
-                {media.type === 'video' && (
-                  <div className="absolute top-1 left-1 p-1 bg-black/60 rounded">
-                    <Video className="w-3 h-3 text-white" />
-                  </div>
-                )}
-              </div>
-            ))}
+    <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4" onClick={onClose}>
+      <div className="relative max-w-5xl w-full h-[90vh] bg-black rounded-2xl overflow-hidden" onClick={e => e.stopPropagation()}>
+        <button onClick={onClose} className="absolute top-4 right-4 z-20 p-2 bg-black/50 rounded-full text-white hover:bg-black/70 transition">
+          <X className="w-6 h-6" />
+        </button>
+        
+        <div className="flex h-full flex-col md:flex-row">
+          <div className="flex-1 bg-black relative flex items-center justify-center">
+            {ad.mediaTypes?.[currentIndex] === 'image' ? (
+              <img src={ad.media?.[currentIndex]} alt={ad.title} className="max-w-full max-h-full object-contain" />
+            ) : (
+              <video src={ad.media?.[currentIndex]} controls className="max-w-full max-h-full" />
+            )}
             
-            {/* Add More Button */}
-            {mediaFiles.length < 10 && (
-              <button
-                onClick={() => fileInputRef.current?.click()}
-                className="aspect-square rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700 flex items-center justify-center hover:border-purple-500 transition-all"
-              >
-                <Plus className="w-6 h-6 text-gray-400" />
-              </button>
+            {ad.media?.length > 1 && (
+              <>
+                <button onClick={() => setCurrentIndex(Math.max(0, currentIndex - 1))} className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 rounded-full text-white">
+                  <ChevronLeft className="w-6 h-6" />
+                </button>
+                <button onClick={() => setCurrentIndex(Math.min(ad.media.length - 1, currentIndex + 1))} className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 rounded-full text-white">
+                  <ChevronRight className="w-6 h-6" />
+                </button>
+              </>
             )}
           </div>
-        </div>
-      )}
-    </div>
-  )
-}
-
-// AI Assistant Component (same as before)
-const AIAssistant = ({ productName, productDescription, productPrice, productCategory, onApplyCaption, onClose }: any) => {
-  const [activeTab, setActiveTab] = useState<'captions' | 'hashtags' | 'ideas'>('captions')
-  const [isGenerating, setIsGenerating] = useState(false)
-  const [generatedCaption, setGeneratedCaption] = useState('')
-  const [generatedHashtags, setGeneratedHashtags] = useState('')
-  const [contentIdeas, setContentIdeas] = useState<any[]>([])
-  const [captionOptions, setCaptionOptions] = useState({ tone: 'casual', length: 'medium', includeEmojis: true, includeHashtags: true })
-  const [copied, setCopied] = useState(false)
-
-  const generateCaption = () => {
-    setIsGenerating(true)
-    setTimeout(() => {
-      const templates: any = {
-        casual: {
-          short: `🔥 Check out our ${productName || 'new product'}! Only TSh ${productPrice?.toLocaleString() || '0'} ✨\n\n${productDescription || 'Amazing quality you will love!'}\n\nOrder now via WhatsApp! 📱`,
-          medium: `Hey fam! 😍 Excited to share this ${productName || 'amazing product'} with you!\n\n${productDescription || 'High quality and affordable'}\n\n💰 Price: TSh ${productPrice?.toLocaleString() || '0'}\n\nGrab yours before they are gone! 🔥`,
-          long: `You guys NEED to see this! 🔥\n\nIntroducing ${productName || 'our latest product'}!\n\n${productDescription || 'Premium quality you can trust'}\n\n✨ Why choose us:\n• Premium quality materials\n• Affordable pricing at TSh ${productPrice?.toLocaleString() || '0'}\n• Fast delivery nationwide\n\n📱 Order via WhatsApp or DM\n\nDon't miss out! 💫`
-        }
-      }
-      const caption = templates.casual[captionOptions.length] || templates.casual.medium
-      setGeneratedCaption(caption)
-      setIsGenerating(false)
-    }, 1500)
-  }
-
-  const generateHashtags = () => {
-    const hashtags = ['#Tanzania', '#LocalBusiness', '#SupportLocal', '#AfricanBusiness', `#${(productName || 'Product').replace(/\s/g, '')}`]
-    setGeneratedHashtags(hashtags.join(' '))
-  }
-
-  const generateIdeas = () => {
-    setContentIdeas([
-      { title: `Behind the Scenes: Making ${productName || 'our product'}`, type: 'Video', difficulty: 'Medium' },
-      { title: `Customer Testimonials for ${productName || 'our product'}`, type: 'Carousel', difficulty: 'Easy' }
-    ])
-  }
-
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
-
-  return (
-    <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-lg flex items-center justify-center p-4">
-      <div className="relative max-w-2xl w-full bg-gradient-to-br from-gray-900 to-black rounded-2xl overflow-hidden border border-purple-500/20">
-        <div className="bg-purple-600 p-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Wand2 className="w-5 h-5 text-white" />
-              <h2 className="font-bold text-white">AI Content Assistant</h2>
+          
+          <div className="w-full md:w-[380px] bg-white dark:bg-gray-900 flex flex-col">
+            <div className="p-4 border-b flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-white font-bold">
+                {ad.businessName?.charAt(0).toUpperCase()}
+              </div>
+              <div>
+                <p className="font-semibold text-sm">{ad.businessName}</p>
+                <p className="text-xs text-gray-500">{ad.location}</p>
+              </div>
             </div>
-            <button onClick={onClose} className="p-1 hover:bg-white/10 rounded-full">
-              <X className="w-5 h-5 text-white" />
-            </button>
+            
+            <div className="flex-1 overflow-y-auto p-4">
+              <p className="text-sm"><span className="font-semibold">{ad.businessName}</span> {ad.description}</p>
+            </div>
+            
+            <div className="border-t p-4 space-y-3">
+              <div className="flex justify-between">
+                <div className="flex gap-4">
+                  <button onClick={() => onLike(ad.id)}><Heart className={`w-6 h-6 ${ad.isLiked ? 'fill-red-500 text-red-500' : ''}`} /></button>
+                  <button><MessageSquare className="w-6 h-6" /></button>
+                  <button><Send className="w-6 h-6" /></button>
+                </div>
+                <button onClick={() => onSave(ad.id)}><Bookmark className={`w-6 h-6 ${ad.isSaved ? 'fill-gray-700' : ''}`} /></button>
+              </div>
+              <p className="font-semibold text-sm">{ad.likes} likes</p>
+              <div className="flex gap-2">
+                <a href={`https://wa.me/${ad.whatsapp}`} target="_blank" rel="noopener noreferrer" className="flex-1 py-2 bg-green-500 text-white rounded-lg text-center text-sm">
+                  WhatsApp
+                </a>
+                <button className="flex-1 py-2 bg-purple-600 text-white rounded-lg text-sm">
+                  Buy Now
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="flex border-b border-gray-800">
-          {[
-            { id: 'captions', icon: Captions, label: 'Captions' },
-            { id: 'hashtags', icon: Hash, label: 'Hashtags' },
-            { id: 'ideas', icon: Lightbulb, label: 'Ideas' }
-          ].map((tab) => (
-            <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 py-3 flex items-center justify-center gap-2 text-sm ${activeTab === tab.id ? 'text-purple-500 border-b-2 border-purple-500' : 'text-gray-500'}`}>
-              <tab.icon className="w-4 h-4" />
-              {tab.label}
-            </button>
-          ))}
-        </div>
-        <div className="p-4">
-          {activeTab === 'captions' && (
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-3">
-                <select value={captionOptions.tone} onChange={(e) => setCaptionOptions({...captionOptions, tone: e.target.value})} className="px-3 py-2 bg-gray-800 rounded-lg text-sm">
-                  <option value="casual">Casual</option>
-                  <option value="professional">Professional</option>
-                </select>
-                <select value={captionOptions.length} onChange={(e) => setCaptionOptions({...captionOptions, length: e.target.value})} className="px-3 py-2 bg-gray-800 rounded-lg text-sm">
-                  <option value="short">Short</option>
-                  <option value="medium">Medium</option>
-                  <option value="long">Long</option>
-                </select>
-              </div>
-              <button onClick={generateCaption} disabled={isGenerating} className="w-full py-2 bg-purple-600 rounded-lg font-semibold text-sm flex items-center justify-center gap-2">
-                {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}
-                Generate Caption
-              </button>
-              {generatedCaption && (
-                <div className="bg-gray-800/50 rounded-lg p-3">
-                  <p className="text-sm text-gray-300 whitespace-pre-wrap">{generatedCaption}</p>
-                  {onApplyCaption && (
-                    <button onClick={() => onApplyCaption(generatedCaption)} className="mt-2 text-xs text-purple-400">
-                      Use This Caption →
-                    </button>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
-          {activeTab === 'hashtags' && (
-            <div className="space-y-4">
-              <button onClick={generateHashtags} className="w-full py-2 bg-purple-600 rounded-lg font-semibold text-sm flex items-center justify-center gap-2">
-                <Hash className="w-4 h-4" /> Generate Hashtags
-              </button>
-              {generatedHashtags && (
-                <div className="bg-gray-800/50 rounded-lg p-3">
-                  <div className="flex flex-wrap gap-1">
-                    {generatedHashtags.split(' ').map((tag, i) => (
-                      <span key={i} className="px-2 py-1 bg-purple-500/20 text-purple-300 rounded text-xs">{tag}</span>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-          {activeTab === 'ideas' && (
-            <div className="space-y-4">
-              <button onClick={generateIdeas} className="w-full py-2 bg-purple-600 rounded-lg font-semibold text-sm">Generate Ideas</button>
-              {contentIdeas.map((idea, i) => (
-                <div key={i} className="bg-gray-800/50 rounded-lg p-3">
-                  <h4 className="font-semibold text-sm">{idea.title}</h4>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-xs text-purple-400">📹 {idea.type}</span>
-                    <span className="text-xs text-gray-500">{idea.difficulty}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
       </div>
     </div>
   )
 }
 
-// Bot Detector Component (simplified)
-const BotDetectorView = ({ followers, onClose }: any) => {
-  const [scanning, setScanning] = useState(false)
-  const [results, setResults] = useState<any[]>([])
+// Helper components for categories
+const Apple = ({ className }: { className?: string }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+  </svg>
+)
 
-  const scanFollowers = () => {
-    setScanning(true)
-    setTimeout(() => {
-      setResults(followers.map((f: any) => ({ ...f, botScore: Math.random() * 100, riskLevel: Math.random() > 0.7 ? 'Suspicious' : 'Safe' })))
-      setScanning(false)
-    }, 2000)
-  }
+const ArrowUp = ({ className }: { className?: string }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+  </svg>
+)
 
-  return (
-    <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-lg flex items-center justify-center p-4">
-      <div className="relative max-w-2xl w-full bg-gray-900 rounded-2xl overflow-hidden border border-purple-500/20">
-        <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-4 flex justify-between items-center">
-          <div className="flex items-center gap-2"><Bot className="w-5 h-5" /><h2 className="font-bold">Follower Scanner</h2></div>
-          <button onClick={onClose}><X className="w-5 h-5" /></button>
-        </div>
-        <div className="p-4">
-          <button onClick={scanFollowers} disabled={scanning} className="w-full py-2 bg-purple-600 rounded-lg font-semibold text-sm flex items-center justify-center gap-2">
-            {scanning ? <Loader2 className="w-4 h-4 animate-spin" /> : <Shield className="w-4 h-4" />}
-            {scanning ? 'Scanning...' : 'Start Scan'}
-          </button>
-          {results.map((r, i) => (
-            <div key={i} className="mt-3 p-3 bg-gray-800 rounded-lg flex justify-between items-center">
-              <span>{r.businessName}</span>
-              <span className={`px-2 py-1 rounded text-xs ${r.riskLevel === 'Safe' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
-                Score: {r.botScore.toFixed(0)}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  )
-}
+const ArrowDown = ({ className }: { className?: string }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+  </svg>
+)
 
 export default function FeedPage() {
   const router = useRouter()
   const { t } = useLanguage()
   
-  // User states
-  const [currentUser, setCurrentUser] = useState<User | null>(null)
-  const [currentProfile, setCurrentProfile] = useState<BusinessProfile | null>(null)
+  const [currentUser, setCurrentUser] = useState<any>(null)
   const [isSubscribed, setIsSubscribed] = useState(false)
   const [trustScore, setTrustScore] = useState(650)
-  const [activeTab, setActiveTab] = useState<'feed' | 'ai' | 'bots' | 'profile'>('feed')
-  const [selectedAdForModal, setSelectedAdForModal] = useState<AdItem | null>(null)
-  
-  // Ad listings states
   const [ads, setAds] = useState<AdItem[]>([])
   const [filteredAds, setFilteredAds] = useState<AdItem[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [isSearchActive, setIsSearchActive] = useState(false)
-  
-  // Upload states
-  const [isUploadOpen, setIsUploadOpen] = useState(false)
-  const [mediaFiles, setMediaFiles] = useState<MediaFile[]>([])
-  const [adTitle, setAdTitle] = useState('')
-  const [adPrice, setAdPrice] = useState('')
-  const [adDesc, setAdDesc] = useState('')
-  const [adCategory, setAdCategory] = useState<'retail' | 'food' | 'electronics' | 'fashion' | 'services' | 'other'>('retail')
-  const [adWhatsapp, setAdWhatsapp] = useState('')
-  const [adMomo, setAdMomo] = useState('')
-  const [uploadStep, setUploadStep] = useState<'media' | 'details'>('media')
-  
-  // Modal states
-  const [showAIAssistant, setShowAIAssistant] = useState(false)
-  const [showBotDetector, setShowBotDetector] = useState(false)
+  const [selectedAdForModal, setSelectedAdForModal] = useState<AdItem | null>(null)
+  const [sortBy, setSortBy] = useState<'latest' | 'popular' | 'price_low' | 'price_high'>('latest')
+  const [showSortMenu, setShowSortMenu] = useState(false)
   
   // Payment states
   const [payingAd, setPayingAd] = useState<AdItem | null>(null)
   const [paymentFinished, setPaymentFinished] = useState(false)
-  
-  const mockFollowers = [
-    { id: '1', businessName: 'Real Customer 1' },
-    { id: '2', businessName: 'Real Customer 2' }
-  ]
 
   useEffect(() => {
     const phone = storage.getCurrentUser()
@@ -448,101 +240,63 @@ export default function FeedPage() {
       return
     }
     const fetchedUser = storage.getUser(phone)
-    const fetchedProfile = storage.getProfile(phone)
-    if (fetchedUser) {
-      setCurrentUser(fetchedUser)
-      setAdWhatsapp(fetchedUser.phone)
-      setAdMomo(fetchedUser.phone)
-      const transactions = storage.getTransactions(phone)
-      const sales = transactions.filter(t => t.type === 'sale').reduce((acc, t) => acc + t.amount, 0)
-      const expenses = transactions.filter(t => t.type === 'expense').reduce((acc, t) => acc + t.amount, 0)
-      const score = Math.min(1000, 300 + (transactions.length * 10) + (sales - expenses > 0 ? 50 : 0))
-      setTrustScore(score)
-    }
-    if (fetchedProfile) setCurrentProfile(fetchedProfile)
+    setCurrentUser(fetchedUser)
+    
+    const transactions = storage.getTransactions(phone)
+    const score = Math.min(1000, 300 + (transactions.length * 10))
+    setTrustScore(score)
+    
     const activeSubs = JSON.parse(localStorage.getItem('showcase_subscriptions') || '{}')
     if (activeSubs[phone]?.active) setIsSubscribed(true)
+    
     const localAds = JSON.parse(localStorage.getItem('showcase_ads') || '[]')
     setAds([...localAds, ...DEFAULT_ADS])
     setFilteredAds([...localAds, ...DEFAULT_ADS])
   }, [router])
 
   useEffect(() => {
-    let result = ads
-    if (selectedCategory !== 'all') result = result.filter(ad => ad.category === selectedCategory)
+    let result = [...ads]
+    
+    if (selectedCategory !== 'all') {
+      result = result.filter(ad => ad.category === selectedCategory)
+    }
+    
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase()
-      result = result.filter(ad => ad.title.toLowerCase().includes(query) || ad.businessName.toLowerCase().includes(query))
+      result = result.filter(ad => 
+        ad.title.toLowerCase().includes(query) || 
+        ad.businessName.toLowerCase().includes(query) ||
+        ad.description.toLowerCase().includes(query)
+      )
     }
+    
+    switch (sortBy) {
+      case 'popular':
+        result.sort((a, b) => b.likes - a.likes)
+        break
+      case 'price_low':
+        result.sort((a, b) => a.price - b.price)
+        break
+      case 'price_high':
+        result.sort((a, b) => b.price - a.price)
+        break
+      default:
+        break
+    }
+    
     setFilteredAds(result)
-  }, [selectedCategory, searchQuery, ads])
+  }, [selectedCategory, searchQuery, ads, sortBy])
 
   const handleLike = (adId: string) => {
-    setAds(prev => prev.map(ad => ad.id === adId ? { ...ad, likes: ad.isLiked ? ad.likes - 1 : ad.likes + 1, isLiked: !ad.isLiked } : ad))
+    setAds(prev => prev.map(ad => 
+      ad.id === adId ? { ...ad, likes: ad.isLiked ? ad.likes - 1 : ad.likes + 1, isLiked: !ad.isLiked } : ad
+    ))
   }
 
   const handleSave = (adId: string) => {
-    setAds(prev => prev.map(ad => ad.id === adId ? { ...ad, isSaved: !ad.isSaved } : ad))
-  }
-
-  const handleMediaAdd = (files: FileList) => {
-    const newFiles: MediaFile[] = Array.from(files).map(file => ({
-      id: Math.random().toString(36),
-      file,
-      preview: URL.createObjectURL(file),
-      type: file.type.startsWith('image/') ? 'image' : 'video'
-    }))
-    setMediaFiles(prev => [...prev, ...newFiles].slice(0, 10))
-  }
-
-  const handleMediaRemove = (id: string) => {
-    setMediaFiles(prev => prev.filter(m => m.id !== id))
-  }
-
-  const handleMediaReorder = (newFiles: MediaFile[]) => {
-    setMediaFiles(newFiles)
-  }
-
-  const handleUploadAdSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!currentUser || !currentProfile || mediaFiles.length === 0) return
-
-    // In production, upload files to cloud storage first
-    const mediaUrls = mediaFiles.map(m => m.preview) // Replace with actual upload URLs
-    
-    const newAd: AdItem = {
-      id: `custom-ad-${Math.random().toString(36)}`,
-      businessName: currentUser.businessName,
-      location: currentProfile.location,
-      trustScore: trustScore,
-      title: adTitle,
-      price: Number(adPrice),
-      description: adDesc,
-      category: adCategory,
-      media: mediaUrls,
-      mediaTypes: mediaFiles.map(m => m.type),
-      whatsapp: adWhatsapp,
-      momoAccount: adMomo,
-      views: 0,
-      leads: 0,
-      likes: 0,
-      isLiked: false,
-      isSaved: false,
-      comments: []
-    }
-
-    const localAds = JSON.parse(localStorage.getItem('showcase_ads') || '[]')
-    localAds.unshift(newAd)
-    localStorage.setItem('showcase_ads', JSON.stringify(localAds))
-    setAds([newAd, ...ads])
-    
-    // Reset form
-    setAdTitle('')
-    setAdPrice('')
-    setAdDesc('')
-    setMediaFiles([])
-    setUploadStep('media')
-    setIsUploadOpen(false)
+    setAds(prev => prev.map(ad => 
+      ad.id === adId ? { ...ad, isSaved: !ad.isSaved } : ad
+    ))
   }
 
   const triggerMomoPayment = (ad: AdItem) => {
@@ -550,261 +304,380 @@ export default function FeedPage() {
     setPaymentFinished(false)
     setTimeout(() => {
       setPaymentFinished(true)
-      setTimeout(() => setPayingAd(null), 1500)
+      setTimeout(() => {
+        setPayingAd(null)
+        const updatedAds = ads.map(a => 
+          a.id === ad.id ? { ...a, leads: a.leads + 1 } : a
+        )
+        setAds(updatedAds)
+      }, 1500)
     }, 2000)
   }
 
-  const PostModal = ({ ad, onClose }: { ad: AdItem; onClose: () => void }) => {
-    const [currentIndex, setCurrentIndex] = useState(0)
-    
-    return (
-      <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4" onClick={onClose}>
-        <div className="relative max-w-5xl w-full h-[85vh] bg-black rounded-2xl overflow-hidden" onClick={e => e.stopPropagation()}>
-          <button onClick={onClose} className="absolute top-4 right-4 z-20 p-2 bg-black/50 rounded-full text-white">
-            <X className="w-6 h-6" />
-          </button>
-          
-          <div className="flex h-full">
-            <div className="flex-1 bg-black relative flex items-center justify-center">
-              {ad.mediaTypes[currentIndex] === 'image' ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={ad.media[currentIndex]} alt="" className="max-w-full max-h-full object-contain" />
-              ) : (
-                <video src={ad.media[currentIndex]} controls className="max-w-full max-h-full" />
-              )}
-              
-              {ad.media.length > 1 && (
-                <>
-                  <button onClick={() => setCurrentIndex(Math.max(0, currentIndex - 1))} className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 rounded-full">
-                    <ChevronLeft className="w-6 h-6 text-white" />
-                  </button>
-                  <button onClick={() => setCurrentIndex(Math.min(ad.media.length - 1, currentIndex + 1))} className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 rounded-full">
-                    <ChevronRight className="w-6 h-6 text-white" />
-                  </button>
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                    {ad.media.map((_, idx) => (
-                      <div key={idx} className={`w-2 h-2 rounded-full ${idx === currentIndex ? 'bg-white w-4' : 'bg-white/50'}`} />
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
-            
-            <div className="w-[380px] bg-white dark:bg-gray-900 flex flex-col">
-              <div className="p-4 border-b flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-white font-bold">{ad.businessName[0]}</div>
-                <div><p className="font-semibold text-sm">{ad.businessName}</p><p className="text-xs text-gray-500">{ad.location}</p></div>
-              </div>
-              <div className="flex-1 overflow-y-auto p-4">
-                <p className="text-sm"><span className="font-semibold">{ad.businessName}</span> {ad.description}</p>
-              </div>
-              <div className="border-t p-4 space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex gap-4">
-                    <button onClick={() => handleLike(ad.id)}><Heart className={`w-6 h-6 ${ad.isLiked ? 'fill-red-500 text-red-500' : ''}`} /></button>
-                    <button><MessageSquare className="w-6 h-6" /></button>
-                    <button><Send className="w-6 h-6" /></button>
-                  </div>
-                  <button onClick={() => handleSave(ad.id)}><Bookmark className={`w-6 h-6 ${ad.isSaved ? 'fill-gray-700' : ''}`} /></button>
-                </div>
-                <p className="font-semibold text-sm">{ad.likes} likes</p>
-                <div className="flex gap-2">
-                  <a href={`https://wa.me/${ad.whatsapp}`} target="_blank" className="flex-1 py-2 bg-green-500 text-white rounded-lg text-center text-sm">WhatsApp</a>
-                  <button onClick={() => triggerMomoPayment(ad)} className="flex-1 py-2 bg-purple-600 text-white rounded-lg text-sm">Buy Now</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  const renderContent = () => {
-    switch (activeTab) {
-      case 'feed':
-        return (
-          <>
-            <div className="flex gap-2 overflow-x-auto pb-4 mb-4">
-              {['all', 'food', 'electronics', 'fashion', 'services'].map(cat => (
-                <button key={cat} onClick={() => setSelectedCategory(cat)} className={`px-4 py-2 rounded-full text-sm font-semibold ${selectedCategory === cat ? 'bg-purple-600 text-white' : 'bg-gray-200 dark:bg-gray-800'}`}>
-                  {cat === 'all' ? 'All' : cat}
-                </button>
-              ))}
-            </div>
-            {filteredAds.length === 0 ? (
-              <div className="text-center py-20"><div className="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4"><Compass className="w-10 h-10 text-gray-400" /></div><h3 className="font-semibold">No Posts Yet</h3></div>
-            ) : (
-              <div className="space-y-6">
-                {filteredAds.map(ad => (
-                  <div key={ad.id} className="bg-white dark:bg-black border rounded-xl overflow-hidden">
-                    <div className="p-3 flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-white font-bold text-sm">{ad.businessName[0]}</div>
-                      <div><p className="font-semibold text-sm">{ad.businessName}</p><p className="text-xs text-gray-500">{ad.location}</p></div>
-                    </div>
-                    <div className="relative cursor-pointer" onClick={() => setSelectedAdForModal(ad)}>
-                      {ad.mediaTypes[0] === 'image' ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={ad.media[0]} alt="" className="w-full aspect-square object-cover" />
-                      ) : (
-                        <video src={ad.media[0]} className="w-full aspect-square object-cover" />
-                      )}
-                      {ad.media.length > 1 && <div className="absolute top-3 right-3 bg-black/50 rounded-full px-2 py-1 text-white text-xs">{ad.media.length} photos</div>}
-                      <div className="absolute bottom-3 right-3 bg-black/50 rounded-full px-3 py-1"><span className="text-white font-bold">TSh {ad.price.toLocaleString()}</span></div>
-                    </div>
-                    <div className="p-3">
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex gap-4">
-                          <button onClick={() => handleLike(ad.id)}><Heart className={`w-5 h-5 ${ad.isLiked ? 'fill-red-500 text-red-500' : ''}`} /></button>
-                          <button><MessageSquare className="w-5 h-5" /></button>
-                          <button><Send className="w-5 h-5" /></button>
-                        </div>
-                        <button onClick={() => handleSave(ad.id)}><Bookmark className={`w-5 h-5 ${ad.isSaved ? 'fill-gray-700' : ''}`} /></button>
-                      </div>
-                      <p className="font-semibold text-sm mb-1">{ad.likes} likes</p>
-                      <p className="text-sm"><span className="font-semibold">{ad.businessName}</span> {ad.title}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </>
-        )
-      case 'ai':
-        return <div className="text-center py-20"><div className="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4"><Wand2 className="w-10 h-10 text-white" /></div><button onClick={() => setShowAIAssistant(true)} className="px-6 py-3 bg-purple-600 rounded-xl font-semibold">Open AI Assistant</button></div>
-      case 'bots':
-        return <div className="text-center py-20"><div className="w-20 h-20 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4"><Bot className="w-10 h-10 text-red-500" /></div><button onClick={() => setShowBotDetector(true)} className="px-6 py-3 bg-red-600 rounded-xl font-semibold">Scan Followers</button></div>
-      case 'profile':
-        return <div className="text-center py-20"><div className="w-20 h-20 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center"><User className="w-10 h-10 text-gray-400" /></div><h3 className="font-semibold">{currentUser?.businessName}</h3><p className="text-sm text-gray-500 mt-1">Trust Score: {trustScore}/1000</p></div>
-      default: return null
+  const shareProduct = (ad: AdItem) => {
+    if (navigator.share) {
+      navigator.share({
+        title: ad.title,
+        text: `Check out ${ad.title} at TSh ${ad.price.toLocaleString()} on ONE TECH!`,
+        url: window.location.href
+      })
+    } else {
+      navigator.clipboard.writeText(`${ad.title} - TSh ${ad.price.toLocaleString()} on ONE TECH`)
+      alert('Link copied to clipboard!')
     }
   }
 
+  const categories = [
+    { id: 'all', name: 'All', icon: Compass },
+    { id: 'food', name: 'Food', icon: Apple },
+    { id: 'electronics', name: 'Electronics', icon: Smartphone },
+    { id: 'fashion', name: 'Fashion', icon: Heart },
+    { id: 'services', name: 'Services', icon: Star }
+  ]
+
+  const sortOptions = [
+    { id: 'latest', label: 'Latest', icon: Clock },
+    { id: 'popular', label: 'Most Popular', icon: TrendingUp },
+    { id: 'price_low', label: 'Price: Low to High', icon: ArrowUp },
+    { id: 'price_high', label: 'Price: High to Low', icon: ArrowDown }
+  ]
+
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-black">
+    <div className="min-h-screen bg-gray-50 dark:bg-black pb-20">
+      {/* Header */}
       <header className="bg-white dark:bg-black border-b sticky top-0 z-40">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <button onClick={() => router.push('/dashboard')} className="p-1 -ml-2 hover:bg-gray-100 rounded-full"><ArrowLeft className="w-5 h-5" /></button>
-            <h1 className="text-2xl font-bold text-black dark:text-white">
-              ONE TECH
-            </h1>
+        <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
+          <button onClick={() => router.push('/dashboard')} className="p-2 -ml-2 hover:bg-gray-100 rounded-full">
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+          <div className="text-center">
+            <h1 className="text-xl font-bold text-black dark:text-white">ONE TECH</h1>
+            <p className="text-xs text-gray-500">Tanzania SME Marketplace</p>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={() => setIsSearchActive(!isSearchActive)} className="p-2 hover:bg-gray-100 rounded-full"><Search className="w-5 h-5" /></button>
-            {isSubscribed && <button onClick={() => setIsUploadOpen(true)} className="p-2 hover:bg-gray-100 rounded-full"><Plus className="w-5 h-5" /></button>}
+            <button onClick={() => setIsSearchActive(!isSearchActive)} className="p-2 hover:bg-gray-100 rounded-full">
+              <Search className="w-5 h-5" />
+            </button>
+            {isSubscribed && (
+              <button onClick={() => router.push('/create-post')} className="p-2 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition">
+                <Plus className="w-5 h-5" />
+              </button>
+            )}
           </div>
         </div>
+        
         {isSearchActive && (
           <div className="px-4 pb-3">
-            <input type="text" placeholder="Search products..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full px-4 py-2 bg-gray-100 dark:bg-gray-900 rounded-full text-sm" autoFocus />
+            <input 
+              type="text" 
+              placeholder="Search products, businesses, or categories..." 
+              value={searchQuery} 
+              onChange={(e) => setSearchQuery(e.target.value)} 
+              className="w-full px-4 py-2 bg-gray-100 dark:bg-gray-900 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" 
+              autoFocus 
+            />
           </div>
         )}
       </header>
 
-      <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-black border-t z-40">
-        <div className="max-w-md mx-auto flex justify-around py-2">
-          {[
-            { id: 'feed', icon: Home, label: 'Feed' },
-            { id: 'ai', icon: Wand2, label: 'AI' },
-            { id: 'bots', icon: Shield, label: 'Security' },
-            { id: 'profile', icon: User, label: 'Profile' }
-          ].map(tab => (
-            <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex flex-col items-center gap-1 p-2 rounded-lg ${activeTab === tab.id ? 'text-purple-600' : 'text-gray-600'}`}>
-              <tab.icon className="w-5 h-5" />
-              <span className="text-[10px]">{tab.label}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <main className="max-w-2xl mx-auto px-4 pb-20 pt-4">{renderContent()}</main>
-
-      {/* Upload Modal with Media Upload */}
-      {isUploadOpen && (
-        <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4" onClick={() => setIsUploadOpen(false)}>
-          <div className="relative max-w-2xl w-full bg-white dark:bg-gray-900 rounded-2xl overflow-hidden" onClick={e => e.stopPropagation()}>
-            <div className="border-b p-4 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <button onClick={() => setUploadStep(uploadStep === 'details' ? 'media' : 'media')} className="p-1 hover:bg-gray-100 rounded-full">
-                  {uploadStep === 'details' && <ArrowLeft className="w-5 h-5" />}
-                </button>
-                <h3 className="font-semibold">Create new post</h3>
+      {/* Upgrade Banner */}
+      {!isSubscribed && (
+        <div className="max-w-2xl mx-auto px-4 pt-4">
+          <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl p-4 text-white relative overflow-hidden cursor-pointer" onClick={() => router.push('/dashboard/promote')}>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
+            <div className="relative z-10">
+              <div className="flex items-center gap-2 mb-2">
+                <Award className="w-5 h-5" />
+                <span className="font-semibold text-sm">Sell on ONE TECH</span>
               </div>
-              <div className="flex items-center gap-2">
-                {uploadStep === 'details' && (
-                  <button onClick={() => setShowAIAssistant(true)} className="px-3 py-1.5 bg-black text-white rounded-lg text-xs font-semibold flex items-center gap-1">
-                    <Wand2 className="w-3 h-3" /> AI Help
-                  </button>
-                )}
-                <button onClick={() => setIsUploadOpen(false)} className="p-2 hover:bg-gray-100 rounded-full"><X className="w-5 h-5" /></button>
-              </div>
+              <p className="text-xs opacity-90 mb-3">Get verified, post products, and reach thousands of customers</p>
+              <button className="px-4 py-1.5 bg-white text-purple-600 rounded-full text-xs font-semibold">
+                Upgrade to Premium
+              </button>
             </div>
-
-            {uploadStep === 'media' ? (
-              <div className="p-6">
-                <MediaUploader 
-                  mediaFiles={mediaFiles}
-                  onMediaAdd={handleMediaAdd}
-                  onMediaRemove={handleMediaRemove}
-                  onMediaReorder={handleMediaReorder}
-                />
-                {mediaFiles.length > 0 && (
-                  <button
-                    onClick={() => setUploadStep('details')}
-                    className="w-full mt-6 py-3 bg-purple-600 text-white rounded-xl font-semibold"
-                  >
-                    Next
-                  </button>
-                )}
-              </div>
-            ) : (
-              <form onSubmit={handleUploadAdSubmit} className="p-6 space-y-4">
-                <input type="text" placeholder="Title" value={adTitle} onChange={(e) => setAdTitle(e.target.value)} className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-xl border-0 focus:ring-2 focus:ring-purple-500" required />
-                <input type="number" placeholder="Price (TSh)" value={adPrice} onChange={(e) => setAdPrice(e.target.value)} className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-xl border-0 focus:ring-2 focus:ring-purple-500" required />
-                <textarea rows={3} placeholder="Description" value={adDesc} onChange={(e) => setAdDesc(e.target.value)} className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-xl border-0 focus:ring-2 focus:ring-purple-500" required />
-                <select value={adCategory} onChange={(e) => setAdCategory(e.target.value as any)} className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-xl border-0 focus:ring-2 focus:ring-purple-500">
-                  <option value="retail">Retail Merchandise</option>
-                  <option value="food">Food & Farming</option>
-                  <option value="electronics">Electronics</option>
-                  <option value="fashion">Fashion & Apparel</option>
-                  <option value="services">Local Services</option>
-                  <option value="services">Other Services</option>
-                </select>
-                <div className="flex gap-3 pt-4">
-                  <button type="button" onClick={() => setUploadStep('media')} className="flex-1 px-4 py-3 border rounded-xl font-semibold text-sm">Back</button>
-                  <button type="submit" className="flex-1 px-4 py-3 bg-purple-600 text-white rounded-xl font-semibold text-sm">Share</button>
-                </div>
-              </form>
-            )}
           </div>
         </div>
       )}
 
-      {selectedAdForModal && <PostModal ad={selectedAdForModal} onClose={() => setSelectedAdForModal(null)} />}
-      {showAIAssistant && <AIAssistant productName={adTitle} productDescription={adDesc} productPrice={Number(adPrice)} productCategory={adCategory} onApplyCaption={(caption: string) => { setAdDesc(caption); setShowAIAssistant(false) }} onClose={() => setShowAIAssistant(false)} />}
-      {showBotDetector && <BotDetectorView followers={mockFollowers} onClose={() => setShowBotDetector(false)} />}
+      {/* Categories & Sort */}
+      <div className="sticky top-[73px] z-30 bg-gray-50 dark:bg-black pt-2">
+        <div className="max-w-2xl mx-auto px-4">
+          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+            {categories.map(cat => {
+              const Icon = cat.icon
+              return (
+                <button 
+                  key={cat.id} 
+                  onClick={() => setSelectedCategory(cat.id)} 
+                  className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all ${
+                    selectedCategory === cat.id 
+                      ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/25' 
+                      : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  {cat.name}
+                </button>
+              )
+            })}
+          </div>
+          
+          <div className="flex justify-end pb-2">
+            <div className="relative">
+              <button
+                onClick={() => setShowSortMenu(!showSortMenu)}
+                className="flex items-center gap-1 px-3 py-1.5 bg-gray-200 dark:bg-gray-800 rounded-full text-xs font-semibold"
+              >
+                <Filter className="w-3 h-3" />
+                Sort
+              </button>
+              {showSortMenu && (
+                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 z-50">
+                  {sortOptions.map(option => {
+                    const OptionIcon = option.icon
+                    return (
+                      <button
+                        key={option.id}
+                        onClick={() => {
+                          setSortBy(option.id as any)
+                          setShowSortMenu(false)
+                        }}
+                        className={`flex items-center gap-2 w-full px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 first:rounded-t-xl last:rounded-b-xl ${
+                          sortBy === option.id ? 'text-purple-600 font-semibold' : 'text-gray-700 dark:text-gray-300'
+                        }`}
+                      >
+                        <OptionIcon className="w-4 h-4" />
+                        {option.label}
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Feed */}
+      <main className="max-w-2xl mx-auto px-4 pt-2">
+        {filteredAds.length === 0 ? (
+          <div className="text-center py-20">
+            <div className="w-20 h-20 bg-gray-200 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Compass className="w-10 h-10 text-gray-400" />
+            </div>
+            <h3 className="font-semibold text-lg">No Posts Found</h3>
+            <p className="text-sm text-gray-500 mt-1">Try adjusting your search or category filter</p>
+            <button 
+              onClick={() => {
+                setSearchQuery('')
+                setSelectedCategory('all')
+              }}
+              className="mt-4 px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-semibold"
+            >
+              Clear Filters
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {filteredAds.map(ad => (
+              <div key={ad.id} className="bg-white dark:bg-black border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
+                {/* Post Header */}
+                <div className="p-3 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center text-white font-bold text-sm">
+                      {ad.businessName.charAt(0).toUpperCase()}
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-1">
+                        <p className="font-semibold text-sm">{ad.businessName}</p>
+                        {ad.trustScore >= 800 && <Shield className="w-3 h-3 text-blue-500 fill-blue-500" />}
+                        {ad.trustScore >= 700 && ad.trustScore < 800 && <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />}
+                      </div>
+                      <div className="flex items-center gap-2 text-xs text-gray-500">
+                        <span className="flex items-center gap-0.5"><MapPin className="w-3 h-3" /> {ad.location}</span>
+                        <span>•</span>
+                        <span className="flex items-center gap-0.5"><Eye className="w-3 h-3" /> {ad.views} views</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button onClick={() => shareProduct(ad)} className="p-2 hover:bg-gray-100 rounded-full">
+                    <Share2 className="w-5 h-5 text-gray-600" />
+                  </button>
+                </div>
+
+                {/* Media */}
+                <div className="relative cursor-pointer" onClick={() => setSelectedAdForModal(ad)}>
+                  {ad.mediaTypes[0] === 'image' ? (
+                    <img src={ad.media[0]} alt={ad.title} className="w-full aspect-square object-cover" />
+                  ) : (
+                    <div className="relative">
+                      <video src={ad.media[0]} className="w-full aspect-square object-cover" />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                        <Play className="w-12 h-12 text-white" />
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md rounded-full px-3 py-1.5 flex items-center gap-2">
+                    <div className={`w-2 h-2 rounded-full ${
+                      ad.trustScore >= 800 ? 'bg-green-500' : ad.trustScore >= 700 ? 'bg-yellow-500' : 'bg-orange-500'
+                    }`} />
+                    <span className="text-white text-xs font-semibold">Trust {ad.trustScore}/1000</span>
+                  </div>
+
+                  {ad.media.length > 1 && (
+                    <div className="absolute top-3 right-3 bg-black/60 rounded-full px-2 py-1 text-white text-xs">
+                      {ad.media.length} photos
+                    </div>
+                  )}
+
+                  <div className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md rounded-full px-3 py-1.5">
+                    <span className="text-white text-sm font-bold">TSh {ad.price.toLocaleString()}</span>
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className="p-3 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex gap-4">
+                      <button onClick={() => handleLike(ad.id)} className="transition-transform hover:scale-110">
+                        <Heart className={`w-6 h-6 ${ad.isLiked ? 'fill-red-500 text-red-500' : 'text-gray-700 dark:text-gray-300'}`} />
+                      </button>
+                      <button onClick={() => setSelectedAdForModal(ad)} className="transition-transform hover:scale-110">
+                        <MessageSquare className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+                      </button>
+                      <button onClick={() => shareProduct(ad)} className="transition-transform hover:scale-110">
+                        <Send className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+                      </button>
+                    </div>
+                    <button onClick={() => handleSave(ad.id)} className="transition-transform hover:scale-110">
+                      <Bookmark className={`w-6 h-6 ${ad.isSaved ? 'fill-gray-700 dark:fill-gray-300 text-gray-700' : 'text-gray-700 dark:text-gray-300'}`} />
+                    </button>
+                  </div>
+
+                  <p className="font-semibold text-sm">{ad.likes.toLocaleString()} likes</p>
+
+                  <p className="text-sm">
+                    <span className="font-semibold">{ad.businessName}</span> {ad.title}
+                  </p>
+                  
+                  {ad.description && (
+                    <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{ad.description}</p>
+                  )}
+
+                  {ad.comments && ad.comments.length > 0 && (
+                    <button onClick={() => setSelectedAdForModal(ad)} className="text-sm text-gray-500">
+                      View all {ad.comments.length} comments
+                    </button>
+                  )}
+
+                  <div className="flex items-center gap-4 pt-1 text-xs text-gray-500">
+                    <span className="flex items-center gap-1"><Eye className="w-3 h-3" /> {ad.views} views</span>
+                    <span className="flex items-center gap-1"><MessageSquare className="w-3 h-3" /> {ad.leads} leads</span>
+                    <span className="flex items-center gap-1"><TrendingUp className="w-3 h-3" /> {((ad.leads / ad.views) * 100).toFixed(0)}% conversion</span>
+                  </div>
+
+                  <div className="flex gap-2 pt-2">
+                    <a 
+                      href={`https://wa.me/${ad.whatsapp}?text=Hi%20${encodeURIComponent(ad.businessName)}%2C%20I%20saw%20${encodeURIComponent(ad.title)}%20for%20TSh%20${ad.price.toLocaleString()}%20on%20ONE%20TECH%20and%20would%20like%20to%20order!`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 py-2.5 bg-green-500 text-white rounded-lg font-semibold text-sm hover:bg-green-600 transition flex items-center justify-center gap-2"
+                    >
+                      <MessageSquare className="w-4 h-4" />
+                      WhatsApp Order
+                    </a>
+                    <button 
+                      onClick={() => triggerMomoPayment(ad)}
+                      className="flex-1 py-2.5 bg-purple-600 text-white rounded-lg font-semibold text-sm hover:bg-purple-700 transition flex items-center justify-center gap-2"
+                    >
+                      <ShoppingBag className="w-4 h-4" />
+                      Buy Now
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </main>
+
+      {/* Bottom Navigation */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-black border-t border-gray-200 dark:border-gray-800 z-40">
+        <div className="max-w-md mx-auto flex justify-around py-2">
+          <button onClick={() => router.push('/dashboard/promote/feed')} className="flex flex-col items-center gap-1 p-2 rounded-lg text-purple-600">
+            <Home className="w-5 h-5" />
+            <span className="text-[10px] font-medium">Feed</span>
+          </button>
+          <button onClick={() => router.push('/ai-assistant')} className="flex flex-col items-center gap-1 p-2 rounded-lg text-gray-600 dark:text-gray-400">
+            <Wand2 className="w-5 h-5" />
+            <span className="text-[10px] font-medium">AI Studio</span>
+          </button>
+          <button onClick={() => router.push('/profile')} className="flex flex-col items-center gap-1 p-2 rounded-lg text-gray-600 dark:text-gray-400">
+            <User className="w-5 h-5" />
+            <span className="text-[10px] font-medium">Profile</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Modals */}
+      {selectedAdForModal && (
+        <PostModal 
+          ad={selectedAdForModal} 
+          onClose={() => setSelectedAdForModal(null)} 
+          onLike={handleLike} 
+          onSave={handleSave}
+        />
+      )}
 
       {payingAd && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white dark:bg-gray-900 rounded-2xl max-w-sm w-full p-6 text-center">
             {!paymentFinished ? (
               <div className="space-y-4">
-                <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mx-auto animate-pulse"><Smartphone className="w-8 h-8 text-purple-600" /></div>
-                <h4 className="text-lg font-semibold">Processing Payment</h4>
+                <div className="w-16 h-16 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mx-auto animate-pulse">
+                  <Smartphone className="w-8 h-8 text-purple-600" />
+                </div>
+                <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Processing Payment</h4>
+                <p className="text-sm text-gray-500">Order: {payingAd.title}</p>
                 <p className="text-2xl font-bold text-purple-600">TSh {payingAd.price.toLocaleString()}</p>
-                <div className="flex items-center justify-center gap-2 text-sm text-gray-500"><Loader2 className="w-4 h-4 animate-spin" /> Waiting for confirmation...</div>
+                <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Waiting for MoMo confirmation...
+                </div>
+                <p className="text-xs text-gray-400">Check your phone for USSD prompt</p>
               </div>
             ) : (
               <div className="space-y-4">
-                <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto"><Check className="w-8 h-8 text-green-600" /></div>
+                <div className="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mx-auto">
+                  <Check className="w-8 h-8 text-green-600" />
+                </div>
                 <h4 className="text-lg font-semibold text-green-600">Order Placed!</h4>
-                <button onClick={() => setPayingAd(null)} className="w-full py-3 bg-purple-600 text-white rounded-xl font-semibold">Done</button>
+                <p className="text-sm text-gray-500">We'll notify the seller immediately</p>
+                <button
+                  onClick={() => {
+                    setPayingAd(null)
+                    setPaymentFinished(false)
+                  }}
+                  className="w-full py-3 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition"
+                >
+                  Done
+                </button>
               </div>
             )}
           </div>
         </div>
       )}
+
+      <style jsx>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </div>
   )
 }

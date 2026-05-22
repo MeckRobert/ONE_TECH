@@ -12,7 +12,7 @@ export const en = {
   'btn.logout': 'Logout',
   'theme.toggle': 'Toggle Theme',
   
-  // Landing Page / Hero - Updated for SME focus
+  // Landing Page / Hero
   'hero.title': 'Empowering SMEs Through Smart Transaction Recording',
   'hero.subtitle': 'Record your daily transactions, build your digital financial identity, and unlock access to loans from trusted financial institutions.',
   'hero.cta': 'Start Recording Today',
@@ -24,7 +24,7 @@ export const en = {
   'home.features_title': 'Everything you need to grow your business',
   'home.features_subtitle': 'Powerful tools designed specifically for small business owners',
   
-  // Features for SME focus
+  // Features
   'home.feature1.title': 'Easy Transaction Recording',
   'home.feature1.desc': 'Record sales, expenses, and payments in seconds with our simple mobile interface.',
   'home.feature2.title': 'Digital Financial Identity',
@@ -129,35 +129,59 @@ export const en = {
 
   // Feed / Marketplace Page
   'feed.title': 'Marketplace',
-  'feed.subtitle': 'Discover products from verified Tanzanian SMEs',
+  'feed.subtitle': 'Tanzania SME Marketplace',
+  'feed.search_placeholder': 'Search products, businesses, or categories...',
   'feed.search': 'Search products, wholesale markets, or local merchants...',
-  'feed.categories.all': 'All Products',
-  'feed.categories.retail': 'Retail Merchandise',
-  'feed.categories.food': 'Food & Farming',
+  'feed.categories.all': 'All',
+  'feed.categories.food': 'Food',
   'feed.categories.electronics': 'Electronics',
-  'feed.categories.fashion': 'Fashion & Apparel',
-  'feed.categories.services': 'Local Services',
-  'feed.categories.other': 'Others',
+  'feed.categories.fashion': 'Fashion',
+  'feed.categories.services': 'Services',
+  'feed.categories.retail': 'Retail',
+  'feed.categories.other': 'Other',
   'feed.no_posts': 'No Posts Yet',
   'feed.no_posts_desc': 'When businesses post products, they\'ll show up here',
-  'feed.upgrade_banner.title': 'Want to List Your Own Products?',
-  'feed.upgrade_banner.desc': 'Get a premium Showcase plan, upload unlimited product advertisements, and display your business verified Trust Score directly to local consumers.',
-  'feed.upgrade_banner.button': 'Get Showcase Premium',
+  'feed.no_results': 'No Posts Found',
+  'feed.no_results_desc': 'Try adjusting your search or category filter',
+  'feed.clear_filters': 'Clear Filters',
+  'feed.upgrade_banner.title': 'Sell on ONE TECH',
+  'feed.upgrade_banner.desc': 'Get verified, post products, and reach thousands of customers',
+  'feed.upgrade_banner.button': 'Upgrade to Premium',
+  'feed.sell_on_onetech': 'Sell on ONE TECH',
+  'feed.upgrade_to_premium': 'Upgrade to Premium',
   'feed.advertise': 'Advertise Product',
   'feed.unlock_advertising': 'Unlock Advertising',
   'feed.trust_score': 'Trust',
   'feed.verified_sme': 'Verified SME',
   'feed.price': 'Price',
-  'feed.impressions': 'Impressions',
-  'feed.leads': 'Leads',
-  'feed.verified_rate': 'Verified Rate',
-  'feed.whatsapp': 'WhatsApp',
-  'feed.momo_order': 'MoMo Order',
+  'feed.views': 'views',
+  'feed.leads': 'leads',
+  'feed.conversion': 'conversion',
   'feed.likes': 'likes',
+  'feed.comments': 'comments',
   'feed.view_comments': 'View all comments',
-  'feed.order_now': 'Order Now',
-  'feed.buy_now': 'Buy Now',
   'feed.whatsapp_order': 'WhatsApp Order',
+  'feed.buy_now': 'Buy Now',
+  'feed.share': 'Share',
+  'feed.share_title': 'Check out {product} on ONE TECH!',
+  'feed.link_copied': 'Link copied to clipboard!',
+  'feed.sort': 'Sort',
+  'feed.sort_latest': 'Latest',
+  'feed.sort_popular': 'Most Popular',
+  'feed.sort_price_low': 'Price: Low to High',
+  'feed.sort_price_high': 'Price: High to Low',
+  
+  // Order & Payment
+  'feed.whatsapp_message': 'Hi {business}, I saw {product} for TSh {price} on ONE TECH and would like to order!',
+  'feed.processing_payment': 'Processing Payment',
+  'feed.order_placed': 'Order Placed!',
+  'feed.payment_amount': 'Payment Amount',
+  'feed.waiting_confirmation': 'Waiting for MoMo confirmation...',
+  'feed.check_phone': 'Check your phone for USSD prompt',
+  'feed.order_notify_seller': 'We\'ll notify the seller immediately',
+  'feed.order_confirmation_sent': 'Order confirmation sent to seller',
+  'feed.chat_on_whatsapp': 'You can chat with seller on WhatsApp',
+  'feed.done': 'Done',
 
   // Media Upload
   'upload.title': 'Create new post',
@@ -266,7 +290,7 @@ export const en = {
   'bot.evidence': 'Evidence',
   'bot.description': 'Description',
   'bot.no_followers': 'No followers found',
-  'bot.no_bots': 'You don\'t have any bot followers! 🎉',
+  'bot.no_bots': 'You don\'t have any bot followers! ',
   'bot.no_suspicious': 'No suspicious accounts detected',
   'bot.empty_state': 'Start growing your audience',
 
@@ -403,5 +427,180 @@ export const en = {
   'about.cta_title': 'Ready to Transform Your Finances?',
   'about.cta_subtitle': 'Join thousands of businesses and individuals already using ONE TECH.',
   'about.cta_button': 'Get Started Now',
-  'about.cta_contact': 'Contact Sales'
+  'about.cta_contact': 'Contact Sales',
+
+  // ============================================
+  // PROMOTE PAGE (Premium Plans)
+  // ============================================
+  
+  'promote.title': 'ONE TECH Premium',
+  'promote.subtitle': 'Elevate your SME advertising presence',
+  'promote.badge': 'Premium Promotion',
+  'promote.heading': 'Choose the Perfect Plan for Your Business',
+  'promote.description': 'Get your products featured in the KIM Showcase, unlock verified trust indicators, and grow your sales volume effortlessly.',
+  
+  'promote.plan.bronze.name': 'Bronze Starter',
+  'promote.plan.bronze.period': 'month',
+  'promote.plan.gold.name': 'Gold Growth',
+  'promote.plan.gold.period': 'month',
+  'promote.plan.gold.badge': 'Most Popular',
+  'promote.plan.platinum.name': 'Platinum Premium',
+  'promote.plan.platinum.period': 'month',
+  'promote.plan.platinum.badge': 'Best Value',
+  
+  'promote.plan.bronze.feature1': 'Upload up to 3 Active Products',
+  'promote.plan.bronze.feature2': 'Direct WhatsApp Inquiry Link',
+  'promote.plan.bronze.feature3': 'Standard Local Search Visibility',
+  'promote.plan.bronze.feature4': 'Basic Click-Through Analytics',
+  
+  'promote.plan.gold.feature1': 'Unlimited Product Uploads',
+  'promote.plan.gold.feature2': 'Verified Trust Score Badge',
+  'promote.plan.gold.feature3': '3x Visual Search Visibility Boost',
+  'promote.plan.gold.feature4': 'Direct Mobile Money Payment Button',
+  'promote.plan.gold.feature5': 'Detailed Impressions & Lead Analytics',
+  'promote.plan.gold.feature6': 'Featured Listings status',
+  
+  'promote.plan.platinum.feature1': 'Everything in Gold Growth',
+  'promote.plan.platinum.feature2': 'Top Banner Carousel Ads',
+  'promote.plan.platinum.feature3': 'Automatic Lead Routing via SMS',
+  'promote.plan.platinum.feature4': 'AI Copywriter for product posts',
+  'promote.plan.platinum.feature5': '24/7 VIP Dedicated Account Manager',
+  'promote.plan.platinum.feature6': 'Custom QR codes for off-app flyers',
+  
+  'promote.button': 'Boost with {plan}',
+  'promote.checkout.title': 'Checkout Gateways',
+  'promote.checkout.subtitle': 'Activating {plan} • {price}',
+  'promote.checkout.momo': 'Mobile Money',
+  'promote.checkout.card': 'Debit / Credit Card',
+  
+  'promote.momo.carrier': 'Select Carrier Provider',
+  'promote.momo.phone': 'MoMo Phone Number',
+  'promote.momo.phone_placeholder': 'e.g. +255 712 345 678',
+  'promote.momo.pin': 'Carrier PIN Auth',
+  'promote.momo.pin_placeholder': '••••',
+  
+  'promote.card.name': 'Cardholder Name',
+  'promote.card.name_placeholder': 'e.g. Robert Michael Meck',
+  'promote.card.number': 'Card Number',
+  'promote.card.number_placeholder': '4000 1234 5678 9010',
+  'promote.card.expiry': 'Expiration Date',
+  'promote.card.expiry_placeholder': 'MM/YY',
+  'promote.card.cvv': 'CVV / Security Code',
+  'promote.card.cvv_placeholder': '123',
+  
+  'promote.pay_button': 'Pay TSh {amount} Now',
+  
+  'promote.processing.title': 'Processing Payment',
+  'promote.processing.subtitle': 'Safe & Encrypted Transaction',
+  'promote.processing.step1': 'Establishing secure handshake...',
+  'promote.processing.step2': 'Initiating gateway protocol...',
+  'promote.processing.step3_momo': 'Requesting TSh {amount} MoMo push to {phone}...',
+  'promote.processing.step3_card': 'Authorizing credit card limit & validation checks...',
+  'promote.processing.step4_momo': 'Awaiting USSD/OTP security verification from your phone...',
+  'promote.processing.step4_card': 'Securing OTP dynamic authorization token...',
+  'promote.processing.step5': 'Settling funds and updating ledger status...',
+  'promote.processing.step6': 'Completed!',
+  
+  'promote.success.title': 'Success!',
+  'promote.success.subtitle': 'Subscription Activated Successfully',
+  'promote.success.redirect': 'Redirecting to KIM Showcase Feed...',
+  
+  'promote.carrier.mpesa': 'M-Pesa',
+  'promote.carrier.tigopesa': 'Tigo Pesa',
+  'promote.carrier.airtel': 'Airtel Money',
+  'promote.carrier.halopesa': 'HaloPesa',
+
+  // ============================================
+  // INVENTORY & SKU (Stock Keeping Unit)
+  // ============================================
+  
+  // Inventory / SKU
+  'inventory.sku': 'SKU (Stock Keeping Unit)',
+  'inventory.sku_label': 'SKU (Optional)',
+  'inventory.sku_placeholder': 'e.g., AV-FRESH-1KG',
+  'inventory.sku_hint': 'Unique code to track this product internally. Example: AV-FRESH-1KG (Avocados, Fresh, 1kg)',
+  'inventory.sku_help': 'SKU helps you identify and track products in your inventory',
+  'inventory.no_sku': 'No SKU assigned',
+  
+  // Inventory Terms
+  'inventory.title': 'Inventory Management',
+  'inventory.product_name': 'Product Name',
+  'inventory.category': 'Category',
+  'inventory.quantity': 'Quantity',
+  'inventory.unit': 'Unit',
+  'inventory.cost_price': 'Cost Price (TSh)',
+  'inventory.selling_price': 'Selling Price (TSh)',
+  'inventory.supplier': 'Supplier',
+  'inventory.reorder_level': 'Reorder Level',
+  'inventory.location': 'Storage Location',
+  'inventory.stock_value': 'Stock Value',
+  'inventory.low_stock': 'Low Stock Alert',
+  'inventory.out_of_stock': 'Out of Stock',
+  'inventory.in_stock': 'In Stock',
+  'inventory.add_product': 'Add Product',
+  'inventory.edit_product': 'Edit Product',
+  'inventory.delete_product': 'Delete Product',
+  'inventory.product_details': 'Product Details',
+  'inventory.stock_level': 'Stock Level',
+  'inventory.potential_profit': 'Potential Profit',
+  'inventory.total_inventory_value': 'Total Inventory Value',
+  
+  // SKU Examples
+  'inventory.sku_examples': 'SKU Examples:',
+  'inventory.sku_example1': 'AV-FRESH-1KG = Avocados, Fresh, 1kg',
+  'inventory.sku_example2': 'CH-USBC-45W = Charger, USB-C, 45W',
+  'inventory.sku_example3': 'BG-LEATHER-BLK = Bag, Leather, Black',
+  'inventory.sku_example4': 'TS-COTTON-L-BLU = T-Shirt, Cotton, Large, Blue',
+  
+  // SKU Best Practices
+  'inventory.sku_tips': 'SKU Tips:',
+  'inventory.sku_tip1': 'Keep it short (8-12 characters)',
+  'inventory.sku_tip2': 'Use letters and numbers only',
+  'inventory.sku_tip3': 'Make first letters represent category',
+  'inventory.sku_tip4': 'Be consistent with your format',
+  'inventory.sku_tip5': 'Avoid spaces and special characters',
+  
+  // Unit Types
+  'inventory.unit_piece': 'Piece',
+  'inventory.unit_kg': 'Kilogram (kg)',
+  'inventory.unit_gram': 'Gram (g)',
+  'inventory.unit_liter': 'Liter (L)',
+  'inventory.unit_bundle': 'Bundle',
+  'inventory.unit_dozen': 'Dozen',
+  'inventory.unit_box': 'Box',
+  'inventory.unit_pack': 'Pack',
+  
+  // Category Types
+  'inventory.category_fruits': 'Fruits',
+  'inventory.category_vegetables': 'Vegetables',
+  'inventory.category_electronics': 'Electronics',
+  'inventory.category_fashion': 'Fashion',
+  'inventory.category_food': 'Food',
+  'inventory.category_beverages': 'Beverages',
+  'inventory.category_cosmetics': 'Cosmetics',
+  'inventory.category_hardware': 'Hardware',
+  'inventory.category_other': 'Other',
+  
+  // Stock Status Messages
+  'inventory.stock_status_low': 'Low Stock - Reorder soon!',
+  'inventory.stock_status_out': 'Out of Stock - Restock now!',
+  'inventory.stock_status_good': 'Stock level is good',
+  'inventory.stock_status_healthy': 'Healthy stock level',
+  
+  // Inventory Actions
+  'inventory.add_stock': 'Add Stock',
+  'inventory.remove_stock': 'Remove Stock',
+  'inventory.stock_added': 'Stock added successfully',
+  'inventory.stock_removed': 'Stock removed successfully',
+  'inventory.product_added': 'Product added successfully',
+  'inventory.product_updated': 'Product updated successfully',
+  'inventory.product_deleted': 'Product deleted successfully',
+  
+  // Inventory Alerts
+  'inventory.alert_low_stock_title': 'Low Stock Alert!',
+  'inventory.alert_low_stock_message': '{count} item(s) are below reorder level',
+  'inventory.alert_out_of_stock_title': 'Out of Stock Alert!',
+  'inventory.alert_out_of_stock_message': '{count} item(s) need immediate restocking',
+  'inventory.alert_view_items': 'View Items',
+  'inventory.alert_restock_now': 'Restock Now'
 }
