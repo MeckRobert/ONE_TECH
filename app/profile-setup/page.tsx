@@ -10,8 +10,7 @@ export default function ProfileSetupPage() {
   const { t } = useLanguage()
   const [formData, setFormData] = useState({
     businessType: 'retail',
-    location: '',
-    mobileMoneyAccount: ''
+    location: ''
   })
   const [error, setError] = useState('')
   const [userPhone, setUserPhone] = useState<string | null>(null)
@@ -38,7 +37,7 @@ export default function ProfileSetupPage() {
     e.preventDefault()
     setError('')
     
-    if (!formData.businessType || !formData.location || !formData.mobileMoneyAccount) {
+    if (!formData.businessType || !formData.location) {
       setError('Please fill in all fields')
       return
     }
@@ -89,7 +88,7 @@ export default function ProfileSetupPage() {
                 <option value="manufacturing">Manufacturing</option>
                 <option value="wholesale">Wholesale</option>
                 <option value="fruit-vendor">Fruit vendor</option>
-                <option value="barber-shop">Barber shop </option>
+                <option value="barber-shop">Barber shop</option>
                 <option value="other">Other</option>
               </select>
             </div>
@@ -107,22 +106,6 @@ export default function ProfileSetupPage() {
                 onChange={handleChange}
                 className="block w-full px-4 py-3 bg-card border border-border text-card-foreground rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all sm:text-sm"
                 placeholder="City, District, or Region"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="mobileMoneyAccount" className="block text-sm font-medium text-muted-foreground mb-2">
-                {t('profile.momo')}
-              </label>
-              <input
-                id="mobileMoneyAccount"
-                name="mobileMoneyAccount"
-                type="tel"
-                required
-                value={formData.mobileMoneyAccount}
-                onChange={handleChange}
-                className="block w-full px-4 py-3 bg-card border border-border text-card-foreground rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all sm:text-sm"
-                placeholder="e.g. 0551234567"
               />
             </div>
           </div>
