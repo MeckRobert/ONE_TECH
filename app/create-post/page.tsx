@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, X, Upload, Image as ImageIcon, Video, PlusCircle, Trash2, Wand2, Loader2, Check } from 'lucide-react'
 import { storage } from '../../lib/storage'
@@ -28,18 +28,29 @@ export default function CreatePostPage() {
   const [showAIAssistant, setShowAIAssistant] = useState(false)
 
   // Load user data
-  useState(() => {
+  useEffect(() => {
     const phone = storage.getCurrentUser()
-    if (!phone) router.push('/login')
+    if (!phone) {
+      router.push('/login')
+      return
+    }
+    
+    // Now TypeScript knows phone is a string (not null)
     const user = storage.getUser(phone)
     const profile = storage.getProfile(phone)
+    
+    if (!user) {
+      router.push('/login')
+      return
+    }
+    
     setCurrentUser(user)
     setCurrentProfile(profile)
     
     const transactions = storage.getTransactions(phone)
     const score = Math.min(1000, 300 + (transactions.length * 10))
     setTrustScore(score)
-  }, [])
+  }, [router])
 
   const handleMediaAdd = (files: FileList) => {
     const newFiles: MediaFile[] = Array.from(files).map(file => ({
@@ -53,6 +64,10 @@ export default function CreatePostPage() {
 
   const handleMediaRemove = (id: string) => {
     setMediaFiles(prev => prev.filter(m => m.id !== id))
+  }
+
+  const handleMediaReorder = (newFiles: MediaFile[]) => {
+    setMediaFiles(newFiles)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -119,7 +134,7 @@ export default function CreatePostPage() {
               mediaFiles={mediaFiles}
               onMediaAdd={handleMediaAdd}
               onMediaRemove={handleMediaRemove}
-              onMediaReorder={setMediaFiles}
+              onMediaReorder={handleMediaReorder}
             />
           </div>
 
@@ -174,8 +189,7 @@ export default function CreatePostPage() {
               <option value="food">Food & Farming</option>
               <option value="electronics">Electronics</option>
               <option value="fashion">Fashion & Apparel</option>
-              <option value="services">Others</option>
-
+              <option value="services">Local Services</option>
             </select>
           </div>
 
@@ -232,18 +246,32 @@ const AIAssistantModal = ({ productName, productDescription, productPrice, onApp
     <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4">
       <div className="relative max-w-lg w-full bg-gray-900 rounded-2xl overflow-hidden border border-purple-500/20">
         <div className="bg-purple-600 p-4 flex items-center justify-between">
-          <div className="flex items-center gap-2"><Wand2 className="w-5 h-5 text-white" /><h2 className="font-bold text-white">AI Caption Generator</h2></div>
-          <button onClick={onClose} className="p-1 hover:bg-white/10 rounded-full"><X className="w-5 h-5 text-white" /></button>
+          <div className="flex items-center gap-2">
+            <Wand2 className="w-5 h-5 text-white" />
+            <h2 className="font-bold text-white">AI Caption Generator</h2>
+          </div>
+          <button onClick={onClose} className="p-1 hover:bg-white/10 rounded-full">
+            <X className="w-5 h-5 text-white" />
+          </button>
         </div>
         <div className="p-6">
-          <button onClick={generateCaption} disabled={isGenerating} className="w-full py-3 bg-purple-600 rounded-lg font-semibold flex items-center justify-center gap-2">
+          <button 
+            onClick={generateCaption} 
+            disabled={isGenerating} 
+            className="w-full py-3 bg-purple-600 rounded-lg font-semibold flex items-center justify-center gap-2"
+          >
             {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}
             Generate Caption
           </button>
           {generatedCaption && (
             <div className="mt-4 p-4 bg-gray-800 rounded-lg">
               <p className="text-sm text-gray-300 whitespace-pre-wrap">{generatedCaption}</p>
-              <button onClick={() => onApplyCaption(generatedCaption)} className="mt-3 w-full py-2 bg-purple-600 rounded-lg text-sm font-semibold">Use This Caption</button>
+              <button 
+                onClick={() => onApplyCaption(generatedCaption)} 
+                className="mt-3 w-full py-2 bg-purple-600 rounded-lg text-sm font-semibold"
+              >
+                Use This Caption
+              </button>
             </div>
           )}
         </div>

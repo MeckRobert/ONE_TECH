@@ -1,4 +1,4 @@
-// components/AIAssistant.tsx
+// app/components/AIAssistance.tsx
 'use client'
 
 import { useState } from 'react'
@@ -7,7 +7,20 @@ import {
   Lightbulb, TrendingUp, Edit3, X, Check, Copy, Loader2,
   Wand2, Music, Palette, Zap, Star, MessageSquare
 } from 'lucide-react'
-import { aiService } from '../lib/aiService'
+import { aiService } from '../../lib/aiService'
+
+// Define the exact types matching the aiService
+type ToneType = 'professional' | 'casual' | 'funny' | 'emotional' | 'persuasive'
+type LengthType = 'short' | 'medium' | 'long'
+type LanguageType = 'en' | 'sw'
+
+interface CaptionOptions {
+  tone: ToneType
+  length: LengthType
+  includeEmojis: boolean
+  includeHashtags: boolean
+  language: LanguageType
+}
 
 interface AIAssistantProps {
   productName?: string
@@ -32,7 +45,7 @@ export default function AIAssistant({
   const [generatedHashtags, setGeneratedHashtags] = useState('')
   const [contentIdeas, setContentIdeas] = useState<any[]>([])
   const [optimizationResults, setOptimizationResults] = useState<any>(null)
-  const [captionOptions, setCaptionOptions] = useState({
+  const [captionOptions, setCaptionOptions] = useState<CaptionOptions>({
     tone: 'casual',
     length: 'medium',
     includeEmojis: true,
@@ -47,7 +60,7 @@ export default function AIAssistant({
       productName || 'this product',
       productDescription || 'High quality product',
       productPrice || 0,
-      captionOptions
+      captionOptions  // Now properly typed
     )
     if (result.success) {
       setGeneratedCaption(result.content)
@@ -136,7 +149,7 @@ export default function AIAssistant({
                   <label className="block text-sm font-medium text-gray-300 mb-2">Tone</label>
                   <select
                     value={captionOptions.tone}
-                    onChange={(e) => setCaptionOptions({...captionOptions, tone: e.target.value})}
+                    onChange={(e) => setCaptionOptions({...captionOptions, tone: e.target.value as ToneType})}
                     className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white"
                   >
                     <option value="professional">Professional</option>
@@ -151,7 +164,7 @@ export default function AIAssistant({
                   <label className="block text-sm font-medium text-gray-300 mb-2">Length</label>
                   <select
                     value={captionOptions.length}
-                    onChange={(e) => setCaptionOptions({...captionOptions, length: e.target.value})}
+                    onChange={(e) => setCaptionOptions({...captionOptions, length: e.target.value as LengthType})}
                     className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white"
                   >
                     <option value="short">Short (1-2 sentences)</option>
@@ -186,7 +199,7 @@ export default function AIAssistant({
                   <label className="block text-sm font-medium text-gray-300 mb-2">Language</label>
                   <select
                     value={captionOptions.language}
-                    onChange={(e) => setCaptionOptions({...captionOptions, language: e.target.value})}
+                    onChange={(e) => setCaptionOptions({...captionOptions, language: e.target.value as LanguageType})}
                     className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white"
                   >
                     <option value="en">English</option>

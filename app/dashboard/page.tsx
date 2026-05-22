@@ -118,12 +118,13 @@ export default function DashboardPage() {
     setUser(fetchedUser)
     setProfile(fetchedProfile)
     setTransactions(storage.getTransactions(phone))
-    setConsentGranted(storage.getConsent(phone))
+    const userConsent = storage.getConsent(phone)
+    setConsentGranted(userConsent)
     
     loadInventory(phone)
     
     // Load discovered users if consent is granted
-    if (storage.getConsent(phone)) {
+    if (userConsent) {
       loadDiscoveredUsers()
     }
     
@@ -185,32 +186,43 @@ export default function DashboardPage() {
   }
 
   const loadDiscoveredUsers = () => {
-    // Get all registered users from storage
-    const allUsers = storage.getAllUsers()
-    const currentUserPhone = storage.getCurrentUser()
-    
-    // Filter out current user and only include users who have consented
-    const otherUsers = allUsers
-      .filter(u => u.phone !== currentUserPhone && storage.getConsent(u.phone))
-      .map(u => {
-        const userTransactions = storage.getTransactions(u.phone)
-        const totalSales = userTransactions.filter(t => t.type === 'sale').reduce((sum, t) => sum + t.amount, 0)
-        const trustScore = Math.min(1000, 300 + (userTransactions.length * 10))
-        
-        return {
-          phone: u.phone,
-          businessName: u.businessName,
-          businessType: u.businessType || 'Retail',
-          location: storage.getProfile(u.phone)?.location || 'Unknown',
-          trustScore: trustScore,
-          totalSales: totalSales,
-          totalTransactions: userTransactions.length,
-          joinedDate: u.createdAt,
-          isVerified: trustScore > 700
-        }
-      })
-    
-    setDiscoveredUsers(otherUsers)
+    try {
+      // Get all registered users from storage
+      const allUsers = storage.getUsers()
+      const currentUserPhone = storage.getCurrentUser()
+      
+      if (!allUsers || !Array.isArray(allUsers)) {
+        setDiscoveredUsers([])
+        return
+      }
+      
+      // Filter out current user and only include users who have consented
+      const otherUsers = allUsers
+        .filter(u => u.phone !== currentUserPhone && storage.getConsent(u.phone))
+        .map(u => {
+          const userTransactions = storage.getTransactions(u.phone)
+          const userProfile = storage.getProfile(u.phone)
+          const totalSales = userTransactions.filter(t => t.type === 'sale').reduce((sum, t) => sum + t.amount, 0)
+          const trustScore = Math.min(1000, 300 + (userTransactions.length * 10))
+          
+          return {
+            phone: u.phone,
+            businessName: u.businessName,
+            businessType: userProfile?.businessType || 'Retail',
+            location: userProfile?.location || 'Unknown',
+            trustScore: trustScore,
+            totalSales: totalSales,
+            totalTransactions: userTransactions.length,
+            joinedDate: new Date().toISOString(), // Use current date as fallback
+            isVerified: trustScore > 700
+          }
+        })
+      
+      setDiscoveredUsers(otherUsers)
+    } catch (error) {
+      console.error('Error loading discovered users:', error)
+      setDiscoveredUsers([])
+    }
   }
 
   const saveInventory = (newInventory: InventoryItem[]) => {
@@ -479,7 +491,7 @@ export default function DashboardPage() {
       <main className="container mx-auto px-4 py-8 space-y-8">
         
         {/* User Network Discovery Banner - Only show when consent is granted */}
-        {consentGranted && (
+        {consentGranted && discoveredUsers.length > 0 && (
           <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl p-6 border border-purple-500/30">
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div className="flex items-center gap-4">
@@ -505,7 +517,7 @@ export default function DashboardPage() {
         )}
 
         {/* User Network Panel */}
-        {showUserNetwork && consentGranted && (
+        {showUserNetwork && consentGranted && discoveredUsers.length > 0 && (
           <div className="glass rounded-2xl border border-purple-500/30 p-6">
             <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
               <div>
@@ -532,8 +544,7 @@ export default function DashboardPage() {
             {filteredUsers.length === 0 ? (
               <div className="text-center py-12 text-muted-foreground">
                 <Users className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                <p>No other businesses found in your network yet.</p>
-                <p className="text-sm mt-1">Invite other businesses to join ONE TECH!</p>
+                <p>No businesses match your search.</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -624,7 +635,7 @@ export default function DashboardPage() {
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <Clock className="w-4 h-4 text-muted-foreground" />
-                  <span>Joined {new Date(selectedUser.joinedDate).toLocaleDateString()}</span>
+                  <span>Member</span>
                 </div>
               </div>
               
@@ -1237,7 +1248,11 @@ export default function DashboardPage() {
                     value={inventoryForm.sku}
                     onChange={(e) => setInventoryForm({...inventoryForm, sku: e.target.value})}
                     className="block w-full border-border bg-background rounded-xl focus:ring-primary focus:border-primary sm:text-sm py-3 px-4 border"
+                    placeholder="e.g., AV-FRESH-1KG"
                   />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Unique code to track this product internally
+                  </p>
                 </div>
               </div>
 

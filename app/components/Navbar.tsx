@@ -3,20 +3,43 @@
 import React, { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useLanguage } from '../contexts/LanguageProvider'
 import { useTheme } from '../contexts/ThemeProvider'
+import { storage } from '../../lib/storage'
 
 export default function Navbar() {
+  const router = useRouter()
   const { t, language, setLanguage } = useLanguage()
   const { theme, toggleTheme } = useTheme()
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [userName, setUserName] = useState('')
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setMounted(true)
+    
+    // Check if user is logged in
+    const checkAuth = () => {
+      const phone = storage.getCurrentUser()
+      if (phone) {
+        setIsLoggedIn(true)
+        const user = storage.getUser(phone)
+        if (user) {
+          setUserName(user.businessName || user.phone)
+        }
+      } else {
+        setIsLoggedIn(false)
+        setUserName('')
+      }
+    }
+    
+    checkAuth()
+    
     const handleScroll = () => {
       setScrolled(window.scrollY > 50)
     }
@@ -34,6 +57,14 @@ export default function Navbar() {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
+
+  const handleLogout = () => {
+    storage.logout()
+    setIsLoggedIn(false)
+    setUserName('')
+    router.push('/login')
+    router.refresh()
+  }
 
   const handleLanguageChange = (lang: 'en' | 'sw') => {
     setLanguage(lang)
@@ -57,8 +88,8 @@ export default function Navbar() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="text-2xl font-extrabold tracking-tight">
-              <span className="text-primary">KIM</span>
-              <span className="text-muted-foreground">fintech</span>
+              <span className="text-primary">ONE</span>
+              <span className="text-muted-foreground">TECH</span>
             </div>
           </div>
         </div>
@@ -76,14 +107,14 @@ export default function Navbar() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <Link href="/" className="text-2xl font-extrabold tracking-tight group">
-                <Image
-                  src="/logo.png"
-                  alt="logo"
-                  width={70}
-                  height={70}
-                  className="object-contain rounded-full"
-                />
+            <Link href={isLoggedIn ? "/dashboard" : "/"} className="text-2xl font-extrabold tracking-tight group">
+              <Image
+                src="/logo.png"
+                alt="logo"
+                width={70}
+                height={70}
+                className="object-contain rounded-full"
+              />
             </Link>
 
             {/* Desktop Navigation */}
@@ -171,15 +202,32 @@ export default function Navbar() {
                 )}
               </button>
 
-              <Link href="/login" className="text-primary font-semibold hover:text-primary/80 transition-colors">
-                {t('btn.login')}
-              </Link>
-              <Link 
-                href="/signUp" 
-                className="px-5 py-2 bg-primary text-primary-foreground font-semibold rounded-lg hover:scale-105 transition-all shadow-lg shadow-primary/20"
-              >
-                {t('btn.signup')}
-              </Link>
+              {/* Conditional Auth Buttons - Desktop */}
+              {isLoggedIn ? (
+                <div className="flex items-center gap-4">
+                  <span className="text-sm text-muted-foreground">
+                    Welcome, {userName}
+                  </span>
+                  <button
+                    onClick={handleLogout}
+                    className="px-5 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-all shadow-lg"
+                  >
+                    {t('btn.logout')}
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-3">
+                  <Link href="/login" className="text-primary font-semibold hover:text-primary/80 transition-colors">
+                    {t('btn.login')}
+                  </Link>
+                  <Link 
+                    href="/signUp" 
+                    className="px-5 py-2 bg-primary text-primary-foreground font-semibold rounded-lg hover:scale-105 transition-all shadow-lg shadow-primary/20"
+                  >
+                    {t('btn.signup')}
+                  </Link>
+                </div>
+              )}
             </div>
 
             {/* Mobile controls */}
@@ -241,20 +289,39 @@ export default function Navbar() {
               </Link>
               
               <div className="pt-2 space-y-2">
-                <Link 
-                  href="/login" 
-                  className="block w-full px-4 py-2 text-center text-primary font-semibold hover:bg-muted rounded-lg transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {t('btn.login')}
-                </Link>
-                <Link 
-                  href="/signUp" 
-                  className="block w-full px-4 py-2 text-center bg-primary text-primary-foreground font-semibold rounded-lg hover:scale-105 transition-all"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {t('btn.signup')}
-                </Link>
+                {isLoggedIn ? (
+                  <>
+                    <div className="px-4 py-2 text-sm text-muted-foreground">
+                      Welcome, {userName}
+                    </div>
+                    <button
+                      onClick={() => {
+                        handleLogout()
+                        setMobileMenuOpen(false)
+                      }}
+                      className="block w-full px-4 py-2 text-center bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-all"
+                    >
+                      {t('btn.logout')}
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link 
+                      href="/login" 
+                      className="block w-full px-4 py-2 text-center text-primary font-semibold hover:bg-muted rounded-lg transition-colors"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {t('btn.login')}
+                    </Link>
+                    <Link 
+                      href="/signUp" 
+                      className="block w-full px-4 py-2 text-center bg-primary text-primary-foreground font-semibold rounded-lg hover:scale-105 transition-all"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {t('btn.signup')}
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
