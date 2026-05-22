@@ -343,7 +343,7 @@ export default function Navbar() {
         }
         .animate-slide-down {
           animation: slide-down 0.2s ease-out;
-        }
+        } 
       `}</style>
     </>
   )
