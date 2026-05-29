@@ -1,0 +1,179 @@
+// =========================
+// PRISMA CONFIG
+// =========================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  
+}
+
+// =========================
+// USER MODEL
+// =========================
+
+model User {
+  id              Int              @id @default(autoincrement())
+
+  fullName        String
+  email           String           @unique
+  password        String
+
+  phone           String?          @unique
+  country         String?          @default("Tanzania")
+
+  profileImage    String?
+
+  isVerified      Boolean          @default(false)
+  isActive        Boolean          @default(true)
+
+  monthlyIncome   Float?
+  savingsGoal     Float?
+
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  transactions    Transaction[]
+  recommendations Recommendation[]
+  investments     Investment[]
+  budgets         Budget[]
+  wallets         Wallet[]
+
+  @@index([email])
+  @@index([phone])
+}
+
+// =========================
+// WALLET MODEL
+// =========================
+
+model Wallet {
+  id          Int      @id @default(autoincrement())
+
+  name        String
+  balance     Float    @default(0)
+
+  currency    String   @default("TZS")
+
+  createdAt   DateTime @default(now())
+
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+
+  transactions Transaction[]
+}
+
+// =========================
+// TRANSACTION MODEL
+// =========================
+
+model Transaction {
+  id            Int              @id @default(autoincrement())
+
+  amount        Float
+
+  type          TransactionType
+  category      String
+
+  description   String?
+
+  status        TransactionStatus @default(COMPLETED)
+
+  reference     String?          @unique
+
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  userId        Int
+  user          User             @relation(fields: [userId], references: [id])
+
+  walletId      Int?
+  wallet        Wallet?          @relation(fields: [walletId], references: [id])
+
+  @@index([type])
+  @@index([category])
+  @@index([createdAt])
+}
+
+// =========================
+// INVESTMENTS
+// =========================
+
+model Investment {
+  id               Int       @id @default(autoincrement())
+
+  investmentType   String
+  amount           Float
+
+  expectedReturn   Float?
+  riskLevel        String?
+
+  startDate        DateTime?
+  endDate          DateTime?
+
+  createdAt        DateTime  @default(now())
+
+  userId           Int
+  user             User      @relation(fields: [userId], references: [id])
+}
+
+// =========================
+// AI RECOMMENDATIONS
+// =========================
+
+model Recommendation {
+  id            Int       @id @default(autoincrement())
+
+  title         String?
+  message       String
+
+  riskLevel     String?
+
+  aiScore       Float?
+
+  createdAt     DateTime  @default(now())
+
+  userId        Int
+  user          User      @relation(fields: [userId], references: [id])
+
+  @@index([createdAt])
+}
+
+// =========================
+// BUDGETS
+// =========================
+
+model Budget {
+  id            Int       @id @default(autoincrement())
+
+  category      String
+  limitAmount   Float
+
+  month         String
+
+  createdAt     DateTime  @default(now())
+
+  userId        Int
+  user          User      @relation(fields: [userId], references: [id])
+}
+
+// =========================
+// ENUMS
+// =========================
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+  SAVING
+  INVESTMENT
+  TRANSFER
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}

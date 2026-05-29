@@ -11,10 +11,10 @@ export default function AboutPage() {
   const [activeTab, setActiveTab] = useState(0)
 
   const stats = [
-    { value: '50K+', label: t('about.stats.users') },
-    { value: '$2B+', label: t('about.stats.transactions') },
-    { value: '99.9%', label: t('about.stats.uptime') },
-    { value: '24/7', label: t('about.stats.support') }
+    { value: '10K+', label: t('about.stats.users') },
+    { value: 'TZS 5B+', label: t('about.stats.transactions') },
+    { value: '50+', label: t('about.stats.investments') },
+    { value: '100%', label: t('about.stats.support') }
   ]
 
   const teamMembers = [
@@ -24,7 +24,6 @@ export default function AboutPage() {
       image: '/team/kelly.png',
       bio: t('about.team.ceo_bio')
     },
-   
     {
       name: 'DR Japhari Ramadhan',
       position: t('about.team.cfo'),
@@ -91,6 +90,9 @@ export default function AboutPage() {
       <section className="relative py-20 bg-gradient-to-br from-primary/5 via-background to-muted/10">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
+            <div className="inline-block mb-4 px-4 py-1.5 bg-primary/10 rounded-full">
+              <span className="text-primary text-sm font-semibold">📊 Track • 🤝 Connect • 📚 Invest</span>
+            </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
               {t('about.title')}
             </h1>
@@ -244,6 +246,43 @@ export default function AboutPage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Core Offerings Section - NEW */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="bg-gradient-to-r from-primary/5 via-muted/10 to-primary/5 rounded-3xl p-12">
+            <div className="text-center max-w-3xl mx-auto mb-10">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">What We Offer</h2>
+              <p className="text-lg text-muted-foreground">
+                Everything you need to track, grow, and invest in one platform
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              <div className="text-center">
+                <div className="text-5xl mb-4">📊</div>
+                <h3 className="text-xl font-bold mb-2">Expense Tracking</h3>
+                <p className="text-muted-foreground text-sm">
+                  Record daily expenses and sales with AI-powered insights
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="text-5xl mb-4">🤝</div>
+                <h3 className="text-xl font-bold mb-2">Marketplace</h3>
+                <p className="text-muted-foreground text-sm">
+                  Connect customers and sellers in one trusted platform
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="text-5xl mb-4">📚</div>
+                <h3 className="text-xl font-bold mb-2">Financial Education</h3>
+                <p className="text-muted-foreground text-sm">
+                  Learn to invest in stocks, real estate, agriculture & more
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { storage, User, BusinessProfile, Transaction } from '../../lib/storage'
 import { useLanguage } from '../contexts/LanguageProvider'
 import { getGrowthMetrics } from '../../lib/analytics'
+import AiRecommendations, { DbRecommendation } from '../components/AiRecommendations'
 import { 
   TrendingUp, TrendingDown, Sparkles, Megaphone, 
   Package, Plus, Minus, AlertTriangle, CheckCircle, 
@@ -55,6 +56,8 @@ export default function DashboardPage() {
   const [inventory, setInventory] = useState<InventoryItem[]>([])
   const [consentGranted, setConsentGranted] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  const [aiRecommendations, setAiRecommendations] = useState<DbRecommendation[]>([])
+  const [isAiLoading, setIsAiLoading] = useState(false)
   const [showInventoryModal, setShowInventoryModal] = useState(false)
   const [editingItem, setEditingItem] = useState<InventoryItem | null>(null)
   const [showLowStockAlert, setShowLowStockAlert] = useState(false)
@@ -127,6 +130,26 @@ export default function DashboardPage() {
     if (userConsent) {
       loadDiscoveredUsers()
     }
+
+    // Sync local data to PostgreSQL and load saved recommendations
+    const loadDbData = async () => {
+      try {
+        setIsAiLoading(true)
+        await storage.syncWithDatabase(phone)
+        const res = await fetch(`/api/recommendations?phone=${encodeURIComponent(phone)}`)
+        if (res.ok) {
+          const json = await res.json()
+          if (json.success && json.data) {
+            setAiRecommendations(json.data)
+          }
+        }
+      } catch (err) {
+        console.error('Failed to load database recommendations:', err)
+      } finally {
+        setIsAiLoading(false)
+      }
+    }
+    loadDbData()
     
     setIsLoading(false)
   }, [router])
@@ -363,7 +386,7 @@ export default function DashboardPage() {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
   }
 
-  const handleAddTransaction = (e: React.FormEvent) => {
+  const handleAddTransaction = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!user || !txnAmount || isNaN(Number(txnAmount))) return
 
@@ -386,13 +409,19 @@ export default function DashboardPage() {
       }
     }
 
-    // Save financial transaction
-    storage.saveTransaction(user.phone, {
+    // Save financial transaction to PostgreSQL database and local backup
+    setIsAiLoading(true)
+    const result = await storage.saveTransactionWithDb(user.phone, {
       type: txnType,
       amount: Number(txnAmount),
       date: new Date().toISOString(),
       description: txnDesc || (selectedProduct ? `Sale: ${inventory.find(p => p.id === selectedProduct)?.name}` : 'No description')
     })
+
+    if (result.success && result.recommendation) {
+      setAiRecommendations(prev => [result.recommendation, ...prev])
+    }
+    setIsAiLoading(false)
 
     setTransactions(storage.getTransactions(user.phone))
     setTxnAmount('')
@@ -461,14 +490,15 @@ export default function DashboardPage() {
                 {profile?.businessType?.charAt(0).toUpperCase()}{profile?.businessType?.slice(1)} &bull; {profile?.location}
               </p>
             </div>
-            <div className="flex gap-4 items-center flex-wrap">
+            <div className="flex gap-4 items-center flex-wrap">    
               <button
-                onClick={() => setShowInventoryModal(true)}
+                onClick={() => router.push('/invest')}
                 className="text-sm px-5 py-2.5 bg-primary text-primary-foreground font-semibold rounded-full hover:opacity-90 transition-opacity border border-border shadow-sm flex items-center gap-2"
               >
-                <Package className="w-4 h-4" />
-                Add Product
+                <Award className="w-4 h-4 " />
+                Invest & Learn
               </button>
+
               <button
                 onClick={() => router.push('/dashboard/promote')}
                 className="text-sm px-5 py-2.5 bg-primary text-primary-foreground font-semibold rounded-full hover:opacity-90 transition-opacity border border-border shadow-sm flex items-center gap-2"
@@ -476,6 +506,15 @@ export default function DashboardPage() {
                 <Megaphone className="w-4 h-4" />
                 {t('dash.btn.promote')}
               </button>
+
+              <button
+                onClick={() => router.push('/dashboard/inventory')}
+                className="text-sm px-5 py-2.5 bg-primary text-primary-foreground font-semibold rounded-full hover:opacity-90 transition-opacity border border-border shadow-sm flex items-center gap-2"
+              >
+                <Package className="w-4 h-4" />
+                Manage Inventory
+              </button>
+              
               <button
                 onClick={() => router.push('/dashboard/statistics')}
                 className="text-sm px-5 py-2.5 bg-primary text-primary-foreground font-semibold rounded-full hover:opacity-90 transition-opacity border border-border shadow-sm flex items-center gap-2"
@@ -483,6 +522,7 @@ export default function DashboardPage() {
                 <TrendingUp className="w-4 h-4" />
                 {t('dash.btn.statistics')}
               </button>
+              
             </div>
           </div>
         </div>
@@ -941,6 +981,9 @@ export default function DashboardPage() {
               </div>
             </section>
 
+            {/* AI Investment Advisory */}
+            <AiRecommendations recommendations={aiRecommendations} isLoading={isAiLoading} />
+
             {/* Consent Toggle - Updated with Network Info */}
             <section className="glass p-8 rounded-2xl border border-border">
               <h3 className="text-xl font-bold mb-4">{t('dash.lender_vis')}</h3>
@@ -989,7 +1032,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Inventory Summary Section */}
-        <section className="glass rounded-2xl border border-border p-6">
+        {/* <section className="glass rounded-2xl border border-border p-6">
           <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
             <h2 className="text-xl font-bold tracking-tight flex items-center gap-2">
               <Package className="w-5 h-5" />
@@ -1102,7 +1145,7 @@ export default function DashboardPage() {
               </table>
             </div>
           )}
-        </section>
+        </section> */}
 
       </main>
 

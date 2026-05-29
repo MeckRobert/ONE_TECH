@@ -25,7 +25,7 @@ export interface User {
 export interface BusinessProfile {
   businessType: string;
   location: string;
-  mobileMoneyAccount: string;
+  mobileMoneyAccount?: string;
   description?: string;
   category?: string;
 }
@@ -205,5 +205,86 @@ export const storage = {
     Object.entries(demoProfiles).forEach(([phone, profile]) => {
       storage.saveProfile(phone, profile);
     });
+  },
+
+  // Synchronize local data to database
+  syncWithDatabase: async (phone: string): Promise<boolean> => {
+    try {
+      const user = storage.getUser(phone);
+      if (!user) return false;
+
+      // 1. Sync User Profile
+      const syncResponse = await fetch('/api/auth/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone: user.phone,
+          pin: user.pin,
+          businessName: user.businessName,
+          email: user.email,
+          fullName: user.businessName
+        })
+      });
+
+      if (!syncResponse.ok) return false;
+      const syncData = await syncResponse.json();
+
+      if (!syncData.success) return false;
+
+      // 2. Sync existing local transactions to database
+      const txs = storage.getTransactions(phone);
+      for (const tx of txs) {
+        await fetch('/api/transactions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            phone: phone,
+            type: tx.type === 'sale' || tx.type === 'mobile_money' ? 'sale' : 'expense',
+            amount: tx.amount,
+            description: tx.description,
+            date: tx.date
+          })
+        });
+      }
+
+      console.log('Successfully synchronized local data with PostgreSQL database!');
+      return true;
+    } catch (err) {
+      console.error('Failed to sync with PostgreSQL database (offline fallback active):', err);
+      return false;
+    }
+  },
+
+  // Save transaction to DB + locally
+  saveTransactionWithDb: async (phone: string, transaction: Omit<Transaction, 'id'>): Promise<{ success: boolean; recommendation?: any }> => {
+    // Save locally first for offline-first backup
+    storage.saveTransaction(phone, transaction);
+
+    try {
+      // Save to PostgreSQL database via API
+      const response = await fetch('/api/transactions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone: phone,
+          type: transaction.type === 'sale' || transaction.type === 'mobile_money' ? 'sale' : 'expense',
+          amount: transaction.amount,
+          description: transaction.description,
+          date: transaction.date
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        return {
+          success: true,
+          recommendation: data.recommendation
+        };
+      }
+    } catch (err) {
+      console.error('Failed to save transaction to database, kept local backup:', err);
+    }
+
+    return { success: false };
   }
 };
