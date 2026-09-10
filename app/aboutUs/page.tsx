@@ -19,23 +19,65 @@ export default function AboutPage() {
 
   const teamMembers = [
     {
-      name: 'Kelly Mwita',
-      position: t('about.team.ceo'),
-      image: '/team/kelly.png',
-      bio: t('about.team.ceo_bio')
-    },
-    {
-      name: 'DR Japhari Ramadhan',
-      position: t('about.team.cfo'),
-      image: '/team/cfo.jpg',
-      bio: t('about.team.cfo_bio')
-    },
-    {
-      name: 'Meki Robert',
-      position: t('about.team.cto'),
-      image: '/team/cto.jpg',
-      bio: t('about.team.cto_bio')
-    },
+    name: 'DR Japhari Ramadhan',
+    position: t('about.team.ceo'),
+    image: '/team/ceo.jpg',
+    bio: t('about.team.ceo_bio')
+  },
+  {
+    name: 'Meki Robert',
+    position: t('about.team.cto'),
+    image: '/team/cto.jpg',
+    bio: t('about.team.cto_bio')
+  },
+  {
+    name: 'CFO NAME',
+    position: t('about.team.cfo'),
+    image: '/team/cfo.jpg',
+    bio: t('about.team.cfo_bio')
+  },
+  {
+    name: 'CTF NAME',
+    position: t('about.team.ctf'),
+    image: '/team/ctf.jpg',
+    bio: t('about.team.ctf_bio')
+  },
+  {
+    name: 'LAWYER NAME',
+    position: t('about.team.lawyer'),
+    image: '/team/lawyer.jpg',
+    bio: t('about.team.lawyer_bio')
+  },
+  {
+    name: 'GRAPHIC DESIGNER NAME',
+    position: t('about.team.graphic_designer'),
+    image: '/team/graphic-designer.jpg',
+    bio: t('about.team.graphic_designer_bio')
+  },
+  {
+    name: 'UI/UX DESIGNER NAME',
+    position: t('about.team.ui_ux_designer'),
+    image: '/team/ui-ux-designer.jpg',
+    bio: t('about.team.ui_ux_designer_bio')
+  },
+  {
+    name: 'MARKETING MANAGER NAME',
+    position: t('about.team.marketing'),
+    image: '/team/marketing.jpg',
+    bio: t('about.team.marketing_bio')
+  },
+  {
+    name: 'HR MANAGER NAME',
+    position: t('about.team.hr'),
+    image: '/team/hr.jpg',
+    bio: t('about.team.hr_bio')
+  },
+  {
+    name: 'OPERATIONS MANAGER NAME',
+    position: t('about.team.operations'),
+    image: '/team/operations.jpg',
+    bio: t('about.team.operations_bio')
+  }
   ]
 
   const values = [

@@ -88,8 +88,8 @@ export default function Navbar() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="text-2xl font-extrabold tracking-tight">
-              <span className="text-primary">ONE</span>
-              <span className="text-muted-foreground">TECH</span>
+              <span className="text-primary">Finbrigde </span>
+              <span className="text-muted-foreground">Africa Co Ltd</span>
             </div>
           </div>
         </div>

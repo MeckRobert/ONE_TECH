@@ -1,6 +1,6 @@
 export const en = {
   // Common
-  'app.title': 'ONE TECH',
+  'app.title': 'Finbrigde Africa Co Ltd',
   'nav.home': 'Home',
   'nav.features': 'Features',
   'nav.services': 'Services',
@@ -85,7 +85,7 @@ export const en = {
   'home.footer_text': 'Secure financial technology for SMEs in Africa',
   'home.footer_privacy': 'Privacy Policy',
   'home.footer_terms': 'Terms of Service',
-  'home.footer_copyright': '© 2024 ONE TECH. All rights reserved.',
+  'home.footer_copyright': '© 2024 Finbrigde Africa Co Ltd. All rights reserved.',
 
   // Auth
   'auth.welcome_back': 'Welcome Back',
@@ -170,10 +170,10 @@ export const en = {
   'feed.no_results': 'No Posts Found',
   'feed.no_results_desc': 'Try adjusting your search or category filter',
   'feed.clear_filters': 'Clear Filters',
-  'feed.upgrade_banner.title': 'Sell on ONE TECH',
+  'feed.upgrade_banner.title': 'Sell on Finbrigde Africa Co Ltd',
   'feed.upgrade_banner.desc': 'Get verified, post products, and reach thousands of customers',
   'feed.upgrade_banner.button': 'Upgrade to Premium',
-  'feed.sell_on_onetech': 'Sell on ONE TECH',
+  'feed.sell_on_onetech': 'Sell on Finbrigde Africa Co Ltd',
   'feed.upgrade_to_premium': 'Upgrade to Premium',
   'feed.advertise': 'Advertise Product',
   'feed.unlock_advertising': 'Unlock Advertising',
@@ -189,7 +189,7 @@ export const en = {
   'feed.whatsapp_order': 'WhatsApp Order',
   'feed.buy_now': 'Buy Now',
   'feed.share': 'Share',
-  'feed.share_title': 'Check out {product} on ONE TECH!',
+  'feed.share_title': 'Check out {product} on Finbrigde Africa Co Ltd!',
   'feed.link_copied': 'Link copied to clipboard!',
   'feed.sort': 'Sort',
   'feed.sort_latest': 'Latest',
@@ -198,7 +198,7 @@ export const en = {
   'feed.sort_price_high': 'Price: High to Low',
   
   // Order & Payment
-  'feed.whatsapp_message': 'Hi {business}, I saw {product} for TSh {price} on ONE TECH and would like to order!',
+  'feed.whatsapp_message': 'Hi {business}, I saw {product} for TSh {price} on Finbrigde Africa Co Ltd and would like to order!',
   'feed.processing_payment': 'Processing Payment',
   'feed.order_placed': 'Order Placed!',
   'feed.payment_amount': 'Payment Amount',
@@ -366,8 +366,8 @@ export const en = {
   'contact.title': 'Contact Us',
   'contact.subtitle': "Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.",
   'contact.email.title': 'Email Us',
-  'contact.email.detail1': 'support@onetech.com',
-  'contact.email.detail2': 'hello@onetech.com',
+  'contact.email.detail1': 'support@finbrigdeafricacoltd.com',
+  'contact.email.detail2': 'hello@finbrigdeafricacoltd.com',
   'contact.email.action': 'Send email',
   'contact.phone.title': 'Call Us',
   'contact.phone.detail1': '+255 123 456 789',
@@ -412,46 +412,102 @@ export const en = {
   'contact.faq.a3': 'Yes, our main office is located in Dar es Salaam, Tanzania. Please schedule an appointment before visiting.',
 
   // About Us Page
-  'about.title': 'About ONE TECH',
+  // About Us Page
+  'about.title': 'About Finbrigde Africa Co Ltd',
   'about.subtitle': 'We are on a mission to revolutionize finance for the digital age, empowering businesses and individuals with cutting-edge financial solutions.',
+  
   'about.mission': 'Our Mission',
   'about.mission_text': 'To democratize access to financial services by providing innovative, secure, and accessible technology that empowers businesses and individuals across Africa.',
+  
   'about.vision': 'Our Vision',
   'about.vision_text': "To become Africa's leading financial technology platform, creating a seamless ecosystem where anyone can track, grow, and invest their business profits effortlessly.",
+  
   'about.values_title': 'Our Values',
   'about.values_subtitle': 'The principles that guide everything we do',
+  
   'about.values.security': 'Bank-Grade Security',
   'about.values.security_desc': 'Military-grade encryption and advanced security protocols to protect your assets.',
+  
   'about.values.innovation': 'Continuous Innovation',
   'about.values.innovation_desc': 'Constantly evolving to bring you the latest in financial technology.',
+  
   'about.values.community': 'Community First',
   'about.values.community_desc': 'Building solutions that serve and uplift our communities.',
+  
   'about.values.transparency': 'Complete Transparency',
   'about.values.transparency_desc': 'Clear, honest communication about fees, policies, and practices.',
+  
   'about.journey': 'Our Journey',
   'about.journey_subtitle': 'A timeline of our growth and milestones',
+  
   'about.milestone1': 'Company Founded',
-  'about.milestone1_desc': 'ONE TECH was founded with a vision to transform financial services in Africa.',
+  'about.milestone1_desc': 'Finbrigde Africa Co Ltd was founded with a vision to transform financial services in Africa.',
+  
   'about.milestone2': 'First 10,000 Users',
   'about.milestone2_desc': 'Reached 10,000 active users across Tanzania.',
+  
   'about.milestone3': 'Launched Mobile App',
   'about.milestone3_desc': 'Released our mobile-first platform for seamless business management.',
+  
   'about.milestone4': 'Expansion & Partnerships',
   'about.milestone4_desc': 'Partnered with leading investment platforms across East Africa.',
+
+  // ============================================
+  // LEADERSHIP TEAM
+  // ============================================
+
   'about.team_title': 'Meet Our Leadership',
-  'about.team_subtitle': 'The passionate team behind ONE TECH',
+  'about.team_subtitle': 'The passionate team behind Finbrigde Africa Co Ltd',
+
+  // CEO
   'about.team.ceo': 'CEO & Founder',
-  'about.team.ceo_bio': 'Former fintech executive with 15+ years of experience in digital banking.',
-  'about.team.cto': 'CTO',
-  'about.team.cto_bio': 'Tech innovator passionate about building scalable financial solutions.',
-  'about.team.cfo': 'CFO',
-  'about.team.cfo_bio': 'Financial expert dedicated to sustainable business growth.',
+  'about.team.ceo_bio': 'Provides strategic leadership and oversees the overall vision, growth, and direction of Finbrigde Africa Co Ltd.',
+
+  // CTO
+  'about.team.cto': 'Chief Technology Officer',
+  'about.team.cto_bio': 'Leads technology strategy, software development, infrastructure, cybersecurity, and digital innovation.',
+
+  // CFO
+  'about.team.cfo': 'Chief Financial Officer',
+  'about.team.cfo_bio': 'Oversees financial strategy, budgeting, financial planning, reporting, and sustainable business growth.',
+
+  // CTF
+  'about.team.ctf': 'Chief Technology & Finance Officer',
+  'about.team.ctf_bio': 'Bridges technology and financial strategy to support efficient operations, innovation, and sustainable business growth.',
+
+  // Lawyer
+  'about.team.lawyer': 'Legal Counsel',
+  'about.team.lawyer_bio': 'Provides legal guidance, manages regulatory matters, and helps ensure the company operates in compliance with applicable laws and regulations.',
+
+  // Graphic Designer
+  'about.team.graphic_designer': 'Graphic Designer',
+  'about.team.graphic_designer_bio': 'Creates compelling visual content, branding materials, marketing graphics, and creative assets for Finbrigde Africa Co Ltd.',
+
+  // UI/UX Designer
+  'about.team.ui_ux_designer': 'UI/UX Designer',
+  'about.team.ui_ux_designer_bio': 'Designs intuitive, accessible, and engaging digital experiences across Finbrigde Africa Co Ltd products and platforms.',
+
+  // Marketing Manager
+  'about.team.marketing': 'Marketing Manager',
+  'about.team.marketing_bio': 'Develops marketing strategies, campaigns, and partnerships that strengthen the company brand and expand its market reach.',
+
+  // Human Resources
+  'about.team.hr': 'Human Resources Manager',
+  'about.team.hr_bio': 'Supports recruitment, employee development, workplace culture, and people management across the organization.',
+
+  // Operations Manager
+  'about.team.operations': 'Operations Manager',
+  'about.team.operations_bio': 'Coordinates daily business operations and ensures efficient execution of company processes and services.',
+
+  // About Statistics
   'about.stats.users': 'Active Users',
   'about.stats.transactions': 'Transactions Processed',
   'about.stats.investments': 'Investment Opportunities',
   'about.stats.support': 'Customer Support',
+
+  // About CTA
   'about.cta_title': 'Ready to Grow Your Business?',
-  'about.cta_subtitle': 'Join thousands of businesses already using ONE TECH to track, connect, and invest.',
+  'about.cta_subtitle': 'Join thousands of businesses already using Finbrigde Africa Co Ltd to track, connect, and invest.',
   'about.cta_button': 'Get Started Now',
   'about.cta_contact': 'Contact Sales',
 
@@ -459,7 +515,7 @@ export const en = {
   // PROMOTE PAGE (Premium Plans)
   // ============================================
   
-  'promote.title': 'ONE TECH Premium',
+  'promote.title': 'Finbrigde Africa Co Ltd Premium',
   'promote.subtitle': 'Elevate your SME advertising presence',
   'promote.badge': 'Premium Promotion',
   'promote.heading': 'Choose the Perfect Plan for Your Business',

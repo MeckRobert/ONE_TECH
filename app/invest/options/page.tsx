@@ -315,7 +315,7 @@ export default function InvestmentOptionsPage() {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Why Connect Through ONE TECH?
+              Why Connect Through Finbrigde Africa Co Ltd?
             </h2>
             <p className="text-lg text-muted-foreground">
               We make it safe and easy to find the right investment partner
@@ -428,7 +428,7 @@ export default function InvestmentOptionsPage() {
               <div className="text-4xl mb-4">⚠️</div>
               <h3 className="text-xl font-bold mb-2">Important Disclaimer</h3>
               <p className="text-muted-foreground text-sm mb-4">
-                ONE TECH is a connection platform only. We do not hold, manage, or take custody of any client funds. 
+                Finbrigde Africa Co Ltd is a connection platform only. We do not hold, manage, or take custody of any client funds. 
                 All investments are made directly with our verified partner agents. Please conduct your own due diligence 
                 before making any investment decisions.
               </p>

@@ -4,7 +4,10 @@ import { ClientLayout } from './components/ClientLayout'
 import Footer from './components/Footer'
 
 export const metadata = {
-  title: 'KIMfintech - Revolutionary Financial Technology',
+  title: 'FINBRIDGE - Revolutionary Financial Technology',
+   icons: {
+    icon: "/logo.png",
+  },
   description: 'Empowering businesses and individuals with cutting-edge financial solutions, seamless payments, and intelligent banking technology.',
 }
 

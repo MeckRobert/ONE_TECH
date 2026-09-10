@@ -184,7 +184,7 @@ export default function PromotePage() {
             <div>
               <h1 className="text-2xl font-black tracking-tight flex items-center gap-2">
                 {/* <Sparkles className="w-5 h-5 text-indigo-400" /> */}
-               ONE TECH Premium
+               Finbrigde Africa Co Ltd Premium
               </h1>
               <p className="text-xs text-muted-foreground uppercase font-semibold tracking-wider">
                 Elevate your SME advertising presence
@@ -465,7 +465,7 @@ export default function PromotePage() {
                       </p>
                     </div>
                     <p className="text-xs text-muted-foreground uppercase font-bold tracking-wider">
-                      Redirecting to ONE TECH Showcase Feed...
+                      Redirecting to Finbrigde Africa Co Ltd Showcase Feed...
                     </p>
                   </div>
                 )}

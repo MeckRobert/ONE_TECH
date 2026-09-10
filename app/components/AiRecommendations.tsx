@@ -63,7 +63,7 @@ export default function AiRecommendations({ recommendations, isLoading }: AiReco
           </div>
         </div>
         <span className="text-[10px] uppercase font-bold tracking-widest bg-primary/10 text-primary px-2.5 py-1 rounded-full border border-primary/20">
-          Powered by ONE TECH
+          Powered by Finbride Africa coltd
         </span>
       </div>
 

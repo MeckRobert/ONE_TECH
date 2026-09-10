@@ -1,6 +1,6 @@
 export const sw = {
   // Common
-  'app.title': 'ONE TECH',
+  'app.title': 'Finbrigde Africa Co Ltd',
   'nav.home': 'Nyumbani',
   'nav.features': 'Makala',
   'nav.services': 'Huduma',
@@ -85,7 +85,7 @@ export const sw = {
   'home.footer_text': 'Teknolojia salama ya kifedha kwa Wafanyabiashara Wadogo barani Afrika',
   'home.footer_privacy': 'Sera ya Faragha',
   'home.footer_terms': 'Masharti ya Huduma',
-  'home.footer_copyright': '© 2024 ONE TECH. Haki zote zimehifadhiwa.',
+  'home.footer_copyright': '© 2024 Finbrigde Africa Co Ltd. Haki zote zimehifadhiwa.',
 
   // Auth
   'auth.welcome_back': 'Karibu Tena',
@@ -170,10 +170,10 @@ export const sw = {
   'feed.no_results': 'Hakuna Machapisho Yaliyopatikana',
   'feed.no_results_desc': 'Jaribu kubadilisha utafutaji wako au chuja',
   'feed.clear_filters': 'Futa Vichujio',
-  'feed.upgrade_banner.title': 'Uza kwenye ONE TECH',
+  'feed.upgrade_banner.title': 'Uza kwenye Finbrigde Africa Co Ltd',
   'feed.upgrade_banner.desc': 'Thibitishwa, chapisha bidhaa, na fikia maelfu ya wateja',
   'feed.upgrade_banner.button': 'Boresha hadi Premium',
-  'feed.sell_on_onetech': 'Uza kwenye ONE TECH',
+  'feed.sell_on_onetech': 'Uza kwenye Finbrigde Africa Co Ltd',
   'feed.upgrade_to_premium': 'Boresha hadi Premium',
   'feed.advertise': 'Tangaza Bidhaa',
   'feed.unlock_advertising': 'Fungua Matangazo',
@@ -189,7 +189,7 @@ export const sw = {
   'feed.whatsapp_order': 'Oda kwa WhatsApp',
   'feed.buy_now': 'Nunua Sasa',
   'feed.share': 'Shiriki',
-  'feed.share_title': 'Angalia {product} kwenye ONE TECH!',
+  'feed.share_title': 'Angalia {product} kwenye Finbrigde Africa Co Ltd!',
   'feed.link_copied': 'Kiungo kimenakiliwa kwenye clipboard!',
   'feed.sort': 'Panga',
   'feed.sort_latest': 'Hivi Karibuni',
@@ -198,7 +198,7 @@ export const sw = {
   'feed.sort_price_high': 'Bei: Juu hadi Chini',
   
   // Order & Payment
-  'feed.whatsapp_message': 'Habari {business}, nimeona {product} kwa TSh {price} kwenye ONE TECH na ningependa kuagiza!',
+  'feed.whatsapp_message': 'Habari {business}, nimeona {product} kwa TSh {price} kwenye Finbrigde Africa Co Ltd na ningependa kuagiza!',
   'feed.processing_payment': 'Inachakata Malipo',
   'feed.order_placed': 'Oda Imewekwa!',
   'feed.payment_amount': 'Kiasi cha Malipo',
@@ -366,8 +366,8 @@ export const sw = {
   'contact.title': 'Wasiliana Nasi',
   'contact.subtitle': 'Una maswali? Tungependa kusikia kutoka kwako. Tutumie ujumbe na tutajibu haraka iwezekanavyo.',
   'contact.email.title': 'Tutumie Barua Pepe',
-  'contact.email.detail1': 'support@onetech.com',
-  'contact.email.detail2': 'hello@onetech.com',
+  'contact.email.detail1': 'support@finbrigdeafricacoltd.com',
+  'contact.email.detail2': 'hello@finbrigdeafricacoltd.com',
   'contact.email.action': 'Tuma barua pepe',
   'contact.phone.title': 'Tupigie Simu',
   'contact.phone.detail1': '+255 123 456 789',
@@ -412,54 +412,121 @@ export const sw = {
   'contact.faq.a3': 'Ndiyo, ofisi yetu kuu iko Dar es Salaam, Tanzania. Tafadhali panga miadi kabla ya kutembelea.',
 
   // About Us Page
-  'about.title': 'Kuhusu ONE TECH',
-  'about.subtitle': 'Tuko katika misheni ya kuleta mapinduzi ya kifedha kwa enzi ya dijitali, kuwawezesha biashara na watu binafsi kwa suluhisho za kifedha za kisasa.',
-  'about.mission': 'Dhamira Yetu',
-  'about.mission_text': 'Kuongeza ufikiaji wa huduma za kifedha kwa kutoa teknolojia bunifu, salama, na inayoweza kupatikana inayowawezesha wafanyabiashara na watu binafsi kote Afrika.',
-  'about.vision': 'Maono Yetu',
-  'about.vision_text': 'Kuwa jukwaa la teknolojia la kifedha linaloongoza Afrika, kuunda mfumo ikolojia usio na mshono ambapo mtu yeyote anaweza kufuatilia, kukuza, na kuwekeza faida ya biashara zao kwa urahisi.',
-  'about.values_title': 'Maadili Yetu',
-  'about.values_subtitle': 'Kanuni zinazoongoza kila kitu tunachofanya',
-  'about.values.security': 'Usalama wa Kiwango cha Benki',
-  'about.values.security_desc': 'Usimbaji wa kiwango cha kijeshi na itifaki za usalama za hali ya juu kulinda mali zako.',
-  'about.values.innovation': 'Ubunifu Unaozidi',
-  'about.values.innovation_desc': 'Kubadilika kila wakati kukuletea teknolojia ya hivi karibuni ya kifedha.',
-  'about.values.community': 'Jamii Kwanza',
-  'about.values.community_desc': 'Kuunda suluhisho zinazohudumu na kuinua jamii zetu.',
-  'about.values.transparency': 'Uwazi Kamili',
-  'about.values.transparency_desc': 'Mawasiliano ya wazi, ya uaminifu kuhusu ada, sera, na mazoea.',
-  'about.journey': 'Safari Yetu',
-  'about.journey_subtitle': 'Ratiba ya ukuaji na hatua zetu muhimu',
-  'about.milestone1': 'Kampuni Ilianzishwa',
-  'about.milestone1_desc': 'ONE TECH ilianzishwa kwa dhana ya kubadilisha huduma za kifedha barani Afrika.',
-  'about.milestone2': 'Watumiaji 10,000 wa Kwanza',
-  'about.milestone2_desc': 'Ilifikia watumiaji 10,000 hai kote Tanzania.',
-  'about.milestone3': 'Programu ya Simu Ilizinduliwa',
-  'about.milestone3_desc': 'Ilizindua jukwaa letu la kwanza la simu kwa usimamizi wa biashara usio na mshono.',
-  'about.milestone4': 'Upanuzi na Ushirikiano',
-  'about.milestone4_desc': 'Ushirikiano na majukwaa ya uwekezaji yanayoongoza mashariki mwa Afrika.',
-  'about.team_title': 'Kutana na Viongozi Wetu',
-  'about.team_subtitle': 'Timu yenye shauku nyuma ya ONE TECH',
-  'about.team.ceo': 'Mkurugenzi Mtendaji na Mwanzilishi',
-  'about.team.ceo_bio': 'Mtendaji wa zamani wa fintech na uzoefu wa zaidi ya miaka 15 katika benki za kidijitali.',
-  'about.team.cto': 'Mkurugenzi wa Teknolojia',
-  'about.team.cto_bio': 'Mvumbuzi wa teknolojia mwenye shauku ya kujenga suluhisho za kifedha zinazoweza kupanuka.',
-  'about.team.cfo': 'Mkurugenzi wa Fedha',
-  'about.team.cfo_bio': 'Mtaalam wa kifedha aliyejitolea kwa ukuaji endelevu wa biashara.',
-  'about.stats.users': 'Watumiaji Hai',
-  'about.stats.transactions': 'Shughuli Zilizochakatwa',
-  'about.stats.investments': 'Fursa za Uwekezaji',
-  'about.stats.support': 'Usaidizi kwa Wateja',
-  'about.cta_title': 'Uko Tayari Kukuza Biashara Yako?',
-  'about.cta_subtitle': 'Jiunge na maelfu ya biashara tayari zinatumia ONE TECH kufuatilia, kuunganisha, na kuwekeza.',
-  'about.cta_button': 'Anza Sasa',
-  'about.cta_contact': 'Wasiliana na Mauzo',
+  // ============================================
+// ABOUT US PAGE
+// ============================================
+
+'about.title': 'Kuhusu Finbrigde Africa Co Ltd',
+'about.subtitle': 'Tuna dhamira ya kubadilisha huduma za kifedha katika zama za kidijitali, kwa kuwawezesha wafanyabiashara na watu binafsi kutumia suluhisho za kisasa za kifedha.',
+
+'about.mission': 'Dhamira Yetu',
+'about.mission_text': 'Kuwezesha upatikanaji wa huduma za kifedha kwa kutoa teknolojia bunifu, salama na rahisi kutumia inayowawezesha wafanyabiashara na watu binafsi kote Afrika.',
+
+'about.vision': 'Maono Yetu',
+'about.vision_text': 'Kuwa jukwaa linaloongoza la teknolojia ya kifedha barani Afrika, likiunda mfumo jumuishi ambapo mtu yeyote anaweza kufuatilia, kukuza na kuwekeza faida za biashara yake kwa urahisi.',
+
+// Values
+'about.values_title': 'Maadili Yetu',
+'about.values_subtitle': 'Kanuni zinazotuongoza katika kila tunachofanya',
+
+'about.values.security': 'Usalama wa Kiwango cha Benki',
+'about.values.security_desc': 'Usimbaji fiche wa hali ya juu na mifumo madhubuti ya usalama kulinda mali na taarifa zako.',
+
+'about.values.innovation': 'Ubunifu Endelevu',
+'about.values.innovation_desc': 'Kuendelea kubuni na kuboresha huduma zetu ili kukuletea teknolojia mpya zaidi za kifedha.',
+
+'about.values.community': 'Jamii Kwanza',
+'about.values.community_desc': 'Kujenga suluhisho zinazohudumia, kuwezesha na kuinua jamii zetu.',
+
+'about.values.transparency': 'Uwazi Kamili',
+'about.values.transparency_desc': 'Mawasiliano yaliyo wazi na ya uaminifu kuhusu ada, sera na huduma zetu.',
+
+// Journey
+'about.journey': 'Safari Yetu',
+'about.journey_subtitle': 'Mfululizo wa ukuaji na hatua muhimu za kampuni yetu',
+
+'about.milestone1': 'Kampuni Ilianzishwa',
+'about.milestone1_desc': 'Finbrigde Africa Co Ltd ilianzishwa ikiwa na maono ya kubadilisha huduma za kifedha barani Afrika.',
+
+'about.milestone2': 'Watumiaji 10,000 wa Kwanza',
+'about.milestone2_desc': 'Tulifikia watumiaji hai 10,000 kote Tanzania.',
+
+'about.milestone3': 'Uzinduzi wa Programu ya Simu',
+'about.milestone3_desc': 'Tulizindua jukwaa letu linalozingatia matumizi ya simu kwa ajili ya usimamizi rahisi wa biashara.',
+
+'about.milestone4': 'Upanuzi na Ushirikiano',
+'about.milestone4_desc': 'Tuliingia katika ushirikiano na majukwaa mbalimbali ya uwekezaji yanayoongoza Afrika Mashariki.',
+
+// ============================================
+// LEADERSHIP TEAM
+// ============================================
+
+'about.team_title': 'Kutana na Viongozi Wetu',
+'about.team_subtitle': 'Timu yenye shauku inayosimamia Finbrigde Africa Co Ltd',
+
+// CEO
+'about.team.ceo': 'Mkurugenzi Mkuu na Mwanzilishi',
+'about.team.ceo_bio': 'Anatoa uongozi wa kimkakati na kusimamia maono, ukuaji na mwelekeo wa jumla wa Finbrigde Africa Co Ltd.',
+
+// CTO
+'about.team.cto': 'Mkurugenzi Mkuu wa Teknolojia',
+'about.team.cto_bio': 'Anaongoza mkakati wa teknolojia, uundaji wa programu, miundombinu, usalama wa mtandao na ubunifu wa kidijitali.',
+
+// CFO
+'about.team.cfo': 'Mkurugenzi Mkuu wa Fedha',
+'about.team.cfo_bio': 'Anasimamia mkakati wa kifedha, bajeti, mipango ya kifedha, taarifa za fedha na ukuaji endelevu wa kampuni.',
+
+// CTF
+'about.team.ctf': 'Mkurugenzi Mkuu wa Teknolojia na Fedha',
+'about.team.ctf_bio': 'Anaunganisha mikakati ya teknolojia na fedha ili kusaidia ufanisi wa shughuli, ubunifu na ukuaji endelevu wa kampuni.',
+
+// Lawyer
+'about.team.lawyer': 'Mshauri wa Kisheria',
+'about.team.lawyer_bio': 'Anatoa ushauri wa kisheria, anasimamia masuala ya udhibiti na kuhakikisha kampuni inafanya kazi kwa kuzingatia sheria na kanuni husika.',
+
+// Graphic Designer
+'about.team.graphic_designer': 'Mbunifu wa Picha',
+'about.team.graphic_designer_bio': 'Anatengeneza maudhui ya kuvutia ya picha, vifaa vya chapa, michoro ya masoko na nyenzo mbalimbali za ubunifu kwa Finbrigde Africa Co Ltd.',
+
+// UI/UX Designer
+'about.team.ui_ux_designer': 'Mbunifu wa UI/UX',
+'about.team.ui_ux_designer_bio': 'Anabuni matumizi ya kidijitali yaliyo rahisi, yanayovutia na yanayofikika katika bidhaa na majukwaa ya Finbrigde Africa Co Ltd.',
+
+// Marketing Manager
+'about.team.marketing': 'Meneja wa Masoko',
+'about.team.marketing_bio': 'Anaandaa mikakati ya masoko, kampeni na ushirikiano unaoimarisha chapa ya kampuni na kupanua wigo wake wa soko.',
+
+// Human Resources
+'about.team.hr': 'Meneja wa Rasilimali Watu',
+'about.team.hr_bio': 'Anasimamia ajira, maendeleo ya wafanyakazi, utamaduni wa kampuni na usimamizi wa watu ndani ya shirika.',
+
+// Operations Manager
+'about.team.operations': 'Meneja wa Uendeshaji',
+'about.team.operations_bio': 'Anaratibu shughuli za kila siku za biashara na kuhakikisha michakato na huduma za kampuni zinatekelezwa kwa ufanisi.',
+
+// ============================================
+// ABOUT STATISTICS
+// ============================================
+
+'about.stats.users': 'Watumiaji Hai',
+'about.stats.transactions': 'Miamala Iliyosindikwa',
+'about.stats.investments': 'Fursa za Uwekezaji',
+'about.stats.support': 'Huduma kwa Wateja',
+
+// ============================================
+// ABOUT CTA
+// ============================================
+
+'about.cta_title': 'Uko Tayari Kukuza Biashara Yako?',
+'about.cta_subtitle': 'Jiunge na maelfu ya wafanyabiashara wanaotumia Finbrigde Africa Co Ltd kufuatilia biashara, kuunganishwa na wateja na kujifunza kuwekeza kwa busara.',
+'about.cta_button': 'Anza Sasa',
+'about.cta_contact': 'Wasiliana na Mauzo',
 
   // ============================================
   // PROMOTE PAGE (Premium Plans)
   // ============================================
   
-  'promote.title': 'ONE TECH Premium',
+  'promote.title': 'Finbrigde Africa Co Ltd Premium',
   'promote.subtitle': 'Inua uwepo wako wa utangazaji kwa Wafanyabiashara Wadogo',
   'promote.badge': 'Utangazaji wa Premium',
   'promote.heading': 'Chagua Mpango Unaofaa kwa Biashara Yako',

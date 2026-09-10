@@ -15,7 +15,7 @@ export default function InvestPage() {
       name: 'Sarah Mwenda',
       business: 'Retail Store Owner',
       image: '👩🏾',
-      quote: 'ONE TECH taught me how to invest my profits. I started with TZS 100,000 in agriculture and earned TZS 150,000 in just 8 months!',
+      quote: 'Finbrigde Africa Co Ltd taught me how to invest my profits. I started with TZS 100,000 in agriculture and earned TZS 150,000 in just 8 months!',
       rating: 5
     },
     {
@@ -29,7 +29,7 @@ export default function InvestPage() {
       name: 'Aisha Hassan',
       business: 'Fruit Vendor',
       image: '👩🏾',
-      quote: 'From tracking daily sales to investing in real estate - ONE TECH changed my financial future completely.',
+      quote: 'From tracking daily sales to investing in real estate - Finbrigde Africa Co Ltd changed my financial future completely.',
       rating: 5
     }
   ]

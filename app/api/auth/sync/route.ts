@@ -28,7 +28,7 @@ export async function POST(request: Request) {
       where: {
         OR: [
           { phone: phone },
-          { email: email || `${phone.replace(/\+/g, '')}@onetech.com` }
+          { email: email || `${phone.replace(/\+/g, '')}@finbrideafricacoltd.com` }
         ]
       }
     });
@@ -48,7 +48,7 @@ export async function POST(request: Request) {
       dbUser = await prisma.user.create({
         data: {
           fullName: fullName || businessName || 'User',
-          email: email || `${phone.replace(/\+/g, '')}@onetech.com`,
+          email: email || `${phone.replace(/\+/g, '')}@finbrideafricacoltd.com`,
           password: pin || '1234',
           phone: phone,
           country: 'Tanzania',

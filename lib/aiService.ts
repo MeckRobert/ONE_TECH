@@ -360,7 +360,7 @@ class AIContentService {
 
     if (apiKey) {
       try {
-        const prompt = `You are an expert financial advisor in Tanzania (ONE TECH fintech platform).
+        const prompt = `You are an expert financial advisor in Tanzania (Finbrigde Africa Co Ltd fintech platform).
 We recorded a new daily income transaction of TSh ${incomeAmount.toLocaleString()} (Description: "${description}").
 The user's recent transactions are: ${JSON.stringify(recentTransactions.slice(0, 5))}.
 

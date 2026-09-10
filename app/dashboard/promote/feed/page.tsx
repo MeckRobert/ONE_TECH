@@ -318,11 +318,11 @@ export default function FeedPage() {
     if (navigator.share) {
       navigator.share({
         title: ad.title,
-        text: `Check out ${ad.title} at TSh ${ad.price.toLocaleString()} on ONE TECH!`,
+        text: `Check out ${ad.title} at TSh ${ad.price.toLocaleString()} on Finbrigde Africa Co Ltd!`,
         url: window.location.href
       })
     } else {
-      navigator.clipboard.writeText(`${ad.title} - TSh ${ad.price.toLocaleString()} on ONE TECH`)
+      navigator.clipboard.writeText(`${ad.title} - TSh ${ad.price.toLocaleString()} on Finbrigde Africa Co Ltd`)
       alert('Link copied to clipboard!')
     }
   }
@@ -351,7 +351,7 @@ export default function FeedPage() {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div className="text-center">
-            <h1 className="text-xl font-bold text-black dark:text-white">ONE TECH</h1>
+            <h1 className="text-xl font-bold text-black dark:text-white">Finbrigde Africa Co Ltd</h1>
             <p className="text-xs text-gray-500">Tanzania SME Marketplace</p>
           </div>
           <div className="flex items-center gap-2">
@@ -388,7 +388,7 @@ export default function FeedPage() {
             <div className="relative z-10">
               <div className="flex items-center gap-2 mb-2">
                 <Award className="w-5 h-5" />
-                <span className="font-semibold text-sm">Sell on ONE TECH</span>
+                <span className="font-semibold text-sm">Sell on Finbrigde Africa Co Ltd</span>
               </div>
               <p className="text-xs opacity-90 mb-3">Get verified, post products, and reach thousands of customers</p>
               <button className="px-4 py-1.5 bg-white text-purple-600 rounded-full text-xs font-semibold">
@@ -579,7 +579,7 @@ export default function FeedPage() {
 
                   <div className="flex gap-2 pt-2">
                     <a 
-                      href={`https://wa.me/${ad.whatsapp}?text=Hi%20${encodeURIComponent(ad.businessName)}%2C%20I%20saw%20${encodeURIComponent(ad.title)}%20for%20TSh%20${ad.price.toLocaleString()}%20on%20ONE%20TECH%20and%20would%20like%20to%20order!`}
+                      href={`https://wa.me/${ad.whatsapp}?text=Hi%20${encodeURIComponent(ad.businessName)}%2C%20I%20saw%20${encodeURIComponent(ad.title)}%20for%20TSh%20${ad.price.toLocaleString()}%20on%20Finbrigde%20Africa%20Co%20Ltd%20and%20would%20like%20to%20order!`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex-1 py-2.5 bg-green-500 text-white rounded-lg font-semibold text-sm hover:bg-green-600 transition flex items-center justify-center gap-2"
