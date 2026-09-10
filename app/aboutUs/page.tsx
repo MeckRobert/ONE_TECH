@@ -19,7 +19,7 @@ export default function AboutPage() {
 
   const teamMembers = [
     {
-    name: 'DR Japhari Ramadhan',
+    name: 'DR Kelly Mwita',
     position: t('about.team.ceo'),
     image: '/team/ceo.jpg',
     bio: t('about.team.ceo_bio')
@@ -31,7 +31,7 @@ export default function AboutPage() {
     bio: t('about.team.cto_bio')
   },
   {
-    name: 'CFO NAME',
+    name: 'Kelvin',
     position: t('about.team.cfo'),
     image: '/team/cfo.jpg',
     bio: t('about.team.cfo_bio')
@@ -43,7 +43,7 @@ export default function AboutPage() {
     bio: t('about.team.ctf_bio')
   },
   {
-    name: 'LAWYER NAME',
+    name: 'Mroso',
     position: t('about.team.lawyer'),
     image: '/team/lawyer.jpg',
     bio: t('about.team.lawyer_bio')
@@ -54,14 +54,9 @@ export default function AboutPage() {
     image: '/team/graphic-designer.jpg',
     bio: t('about.team.graphic_designer_bio')
   },
+
   {
-    name: 'UI/UX DESIGNER NAME',
-    position: t('about.team.ui_ux_designer'),
-    image: '/team/ui-ux-designer.jpg',
-    bio: t('about.team.ui_ux_designer_bio')
-  },
-  {
-    name: 'MARKETING MANAGER NAME',
+    name: 'Nathan',
     position: t('about.team.marketing'),
     image: '/team/marketing.jpg',
     bio: t('about.team.marketing_bio')
