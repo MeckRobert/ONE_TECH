@@ -30,12 +30,7 @@ export default function AboutPage() {
     image: '/team/cto.jpg',
     bio: t('about.team.cto_bio')
   },
-  {
-    name: 'Kelvin',
-    position: t('about.team.cfo'),
-    image: '/team/cfo.jpg',
-    bio: t('about.team.cfo_bio')
-  },
+  
   {
     name: 'CTF NAME',
     position: t('about.team.ctf'),
