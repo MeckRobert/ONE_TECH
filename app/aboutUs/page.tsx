@@ -49,12 +49,11 @@ export default function AboutPage() {
     bio: t('about.team.lawyer_bio')
   },
   {
-    name: 'GRAPHIC DESIGNER NAME',
-    position: t('about.team.graphic_designer'),
-    image: '/team/graphic-designer.jpg',
-    bio: t('about.team.graphic_designer_bio')
-  },
-
+    name: 'Kelvin Mwangoka',
+    position: t('about.team.finance_accounting'),
+    image: '/team/finance-accounting.jpg',
+    bio: t('about.team.finance_accounting_bio')
+  },  
   {
     name: 'Nathan',
     position: t('about.team.marketing'),

@@ -488,9 +488,9 @@ export const sw = {
 'about.team.graphic_designer': 'Mbunifu wa Picha',
 'about.team.graphic_designer_bio': 'Anatengeneza maudhui ya kuvutia ya picha, vifaa vya chapa, michoro ya masoko na nyenzo mbalimbali za ubunifu kwa Finbrigde Africa Co Ltd.',
 
-// UI/UX Designer
-'about.team.ui_ux_designer': 'Mbunifu wa UI/UX',
-'about.team.ui_ux_designer_bio': 'Anabuni matumizi ya kidijitali yaliyo rahisi, yanayovutia na yanayofikika katika bidhaa na majukwaa ya Finbrigde Africa Co Ltd.',
+ //Finance & Accounting
+'about.team.finance_accounting': 'Fedha na Uhasibu',
+'about.team.finance_accounting_bio': 'Anahusika na usimamizi wa fedha, uhasibu, upangaji wa bajeti, uandaaji wa taarifa za kifedha, na kusaidia katika mipango na maamuzi ya kifedha ya kampuni.',
 
 // Marketing Manager
 'about.team.marketing': 'Meneja wa Masoko',

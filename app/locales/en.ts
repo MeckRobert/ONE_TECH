@@ -511,6 +511,11 @@ export const en = {
   'about.cta_button': 'Get Started Now',
   'about.cta_contact': 'Contact Sales',
 
+  //Finance & Accounting
+  'about.team.finance_accounting':'Finance & Accounting',
+  'about.team.finance_accounting_bio':'Responsible for financial management, accounting, budgeting, financial reporting, and supporting the company’s financial planning and decision-making.',
+
+
   // ============================================
   // PROMOTE PAGE (Premium Plans)
   // ============================================
