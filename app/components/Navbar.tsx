@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { useLanguage } from '../contexts/LanguageProvider'
 import { useTheme } from '../contexts/ThemeProvider'
 import { storage } from '../../lib/storage'
+import { InstallPWAButton } from './InstallPWA'
 
 export default function Navbar() {
   const router = useRouter()
@@ -202,6 +203,9 @@ export default function Navbar() {
                 )}
               </button>
 
+              {/* Install App PWA Button */}
+              <InstallPWAButton />
+
               {/* Conditional Auth Buttons - Desktop */}
               {isLoggedIn ? (
                 <div className="flex items-center gap-4">
@@ -232,6 +236,8 @@ export default function Navbar() {
 
             {/* Mobile controls */}
             <div className="md:hidden flex items-center gap-2">
+              <InstallPWAButton className="px-2.5 py-1 text-xs" />
+
               <button
                 onClick={() => setLanguage(language === 'en' ? 'sw' : 'en')}
                 className="px-3 py-1.5 rounded-lg bg-muted hover:bg-muted/80 transition-all duration-200 text-sm font-medium"

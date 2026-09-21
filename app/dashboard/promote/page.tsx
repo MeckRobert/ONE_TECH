@@ -27,7 +27,7 @@ export default function PromotePage() {
   const [paymentMethod, setPaymentMethod] = useState<'momo' | 'card'>('momo')
   const [momoCarrier, setMomoCarrier] = useState<'mpesa' | 'tigopesa' | 'airtel' | 'halopesa'>('mpesa')
   const [phoneNumber, setPhoneNumber] = useState('')
-  const [momoPin, setMomoPin] = useState('')
+  
   
   // Card states
   const [cardNumber, setCardNumber] = useState('')
@@ -349,18 +349,7 @@ export default function PromotePage() {
                     />
                   </div>
 
-                  <div>
-                    <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">Carrier PIN Auth</label>
-                    <input 
-                      type="password" 
-                      required
-                      maxLength={4}
-                      placeholder="••••"
-                      value={momoPin}
-                      onChange={(e) => setMomoPin(e.target.value)}
-                      className="block w-full border-border bg-background rounded-xl focus:ring-primary focus:border-primary sm:text-sm py-3 px-4 border text-center tracking-widest text-lg font-bold"
-                    />
-                  </div>
+                  
                 </div>
               ) : (
                 // CARD FLOW
